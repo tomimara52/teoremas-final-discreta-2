@@ -69,6 +69,7 @@ Solo basta ver cuantas de estas palabras puede haber. Como cada R borra un lado 
 Finalmente:
 \[ Compl(\text{hallar flujo bloqueante}) = O(n) \times O(m) = O(n \times m) \]
 
+
 * ¿Cuál es la complejidad del algoritmo de Wave? No hace falta probar que la distancia en NAs sucesivos aumenta
 Probaré que $Compl(Wave) = O(n^3)$.
 

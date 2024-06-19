@@ -1,4 +1,4 @@
-% Created 2024-06-19 Wed 00:00
+% Created 2024-06-19 Wed 00:01
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -32,10 +32,10 @@
 
 
 \section{¿Cuál es la complejidad de Dinic en ambas versiones? No hace falta probar que la distancia en NAs sucesivos aumenta}
-\label{sec:org75dc452}
+\label{sec:org2b0238e}
 Probaré que \(Compl(Dinic) = O(n^2 \times m)\).
 \subsection{Complejidad de NAs}
-\label{sec:org7946bfb}
+\label{sec:orga836bc0}
 Como en cada NA la distancia entre s y t aumenta, tendré a lo sumo O(n) NAs. Además, como uso BFS, la complejidad de construir cada NA es O(m).
 Entonces tengo que
 \begin{align*}
@@ -45,7 +45,7 @@ Compl(Dinic) & = (Compl(\text{hallar flujo bloqueante}) + Compl(construir NA)) \
 Me basta probar que \(Compl(\text{hallar flujo bloqueante}) = O(n \times m)\).
 
 \subsection{Versión original}
-\label{sec:org5b3ac1b}
+\label{sec:orgdfa61c0}
 Los NAs en esta versión tienen la propiedad de que todo vértice tiene algún lado no saturado que va al siguiente nivel. Esto significa que DFS encuentra un camino de s a t sin tener que hacer backtracking. Entonces la complejidad de encontrar un camino en el NA es O(n° niveles) = O(n). Además, aumentar el flujo en un camino es O(n), pues hay que recorrer el camino dos veces. Ahora, como cada camino aumentante satura (al menos) un lado, tendré O(m) caminos aumentantes.
 Entonces por ahora tengo que la complejidad de encontrar los caminos y aumentar el flujo en ellos es \({O(n \times m)}\). Sin embargo, tengo que ver cuánto cuesta mantener la propiedad que mencioné al principio.
 
@@ -63,7 +63,7 @@ Finalmente, la complejidad de hallar flujo bloqueante es
 \[ O(n \times m) + O(n \times m) + O(m) = O(n \times m) \]
 
 \subsection{Versión occidental}
-\label{sec:orge12696e}
+\label{sec:orgd6b34ac}
 Daré el algoritmo que se usa para encontrar un flujo bloqueante g:
 \begin{verbatim}
 g := 0
@@ -102,8 +102,9 @@ Solo basta ver cuantas de estas palabras puede haber. Como cada R borra un lado 
 Finalmente:
 \[ Compl(\text{hallar flujo bloqueante}) = O(n) \times O(m) = O(n \times m) \]
 
+
 \section{¿Cuál es la complejidad del algoritmo de Wave? No hace falta probar que la distancia en NAs sucesivos aumenta}
-\label{sec:org7fba63f}
+\label{sec:orgf66ab8e}
 Probaré que \(Compl(Wave) = O(n^3)\).
 
 Al igual que en Dinic, como la distancia entre s y t aumenta en NAs sucesivos, tengo O(n) NAs, pues t no puede estar a una distancia mayor a n de s.
@@ -143,28 +144,28 @@ Cuando un vértice devuelve flujo a los vecinos, vacía todos los lados excepto 
 
 
 \section{Probar que el valor de todo flujo es menor o igual a la capacidad de todo corte. También que si f es flujo, es maximal si y solo si existe S corte con V(f) = Cap(S) y S es minimal. No hace falta probar que \(V(f) = f(S, \overline{S}) - f(\overline{S}, S)\)}
-\label{sec:org6da2adf}
+\label{sec:orga947434}
 \subsection{Valor de todo flujo menor o igual a capacidad de todo corte}
-\label{sec:org1209484}
+\label{sec:orge04be0d}
 \[
 f(\overline{S}, S) = \sum_{\substack{x \not\in S \\ y \in S \\ \overrightarrow{xy} \in E}} f(\overrightarrow{xy}) \ge 0 \text{ pues } f(\overrightarrow{xy}), \forall \overrightarrow{xy} \in E
 \]
 Entonces tengo \(V(f) = f(S, \overline{S}) - f(\overline{S}, S) \le f(S, \overline{S}) \le c(S, \overline{S}) = Cap(S)\)
 
 \subsection{\(\impliedby\) vuelta}
-\label{sec:org0739cf8}
+\label{sec:org00ce664}
 Sea f flujo y S corte con \(V(f) = Cap(S)\). Para todo flujo g, por lo que probé arriba tengo \(V(g) \le Cap(S) = V(f) \implies\) f es maximal. Además, para todo corte T tengo \(Cap(T) \ge V(f) = Cap(S) \implies\) S es minimal.
 
 \subsection{\(\implies\) ida}
-\label{sec:org8deb5c0}
+\label{sec:org0d0ad45}
 Sea f flujo maximal. Voy a construir un S y probaré que es un corte minimal con V(f) = Cap(S).
 \[ S = \{s\} \cup \{x \colon \text{existe f-camino aumentante de s a x}\} \]
 \subsubsection*{S es corte}
-\label{sec:org1010c10}
+\label{sec:org7086478}
 Sup. que no lo es. La única forma que pase esto es porque \(t \not\in S\), pues \(s \in S\). Pero esto significa que existe un f-camino aumentante de s a t, por lo que puedo aumentar f en ese camino. Absurdo porque f es maximal, luego S es corte.
 
 \subsubsection*{V(f) = Cap(S)}
-\label{sec:orgd46cec6}
+\label{sec:org465fd8a}
 Sean \(x \in S, y \not\in S, \overrightarrow{xy} \in E\).
 \[ x \in S \implies \text{ existe f-camino aumentante de s a x} \]
 \[ y \not\in S \implies \text{ no existe f-camino aumentante de s a y} \]
@@ -182,6 +183,6 @@ Finalmente: \(V(f) = f(S, \overline{S}) - f(\overline{S}, S) = Cap(S) - 0 = Cap(
 
 
 \section{Probar que si G es un grafo conexo no regular entonces \(\chi(G) \le \Delta(G)\)}
-\label{sec:orgfec3829}
+\label{sec:org8859a07}
 Sea \(x\) tal que \(d(x) = \delta(G)\). Corro BFS empezando por \(x\) y guardo el orden inverso en que los vértices se visitaron. Ahora voy a correr greedy en este orden que acabo de guardar. Notar que en BFS todo vértice es incluido por un vértice que ya ha sido visitado, entonces en el orden inverso todo vértice tiene al menos un vecino por delante (excepto el x). Esto significa que para cada vértice \(y\), en el peor caso va a tener \(d(y)-1 < \Delta\) vecinos coloreados todos con un color distinto, entonces voy a poder elegir un color en \(\{1,\cdots, \Delta\}\). Finalmente, cuando llego a x, como \(d(x)=\delta<\Delta\), podré elegir algún color de \(\{1,\cdots, \Delta\}\) que no está usado por ningún vecino de x para colorearlo. De esta forma tengo un coloreo propio de G que usa (a lo sumo) \(\Delta\) colores, entonces \(\chi(G) \le \Delta(G)\).
 \end{document}
