@@ -1,5 +1,5 @@
 * ¿Qué es esto?
-Estos son las demostraciones de los teoremas que entran al final de discreta 2 de julio de 2024.
+Estas son las demostraciones de los teoremas que entran al final de discreta 2 de julio de 2024.
 * Herramientas que usé 
 El archivo .tex fue generado por la herramienta de exportación a LaTeX que viene con org-mode en emacs.
 
