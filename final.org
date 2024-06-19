@@ -1,0 +1,43 @@
+#+TITLE: Teoremas para el final de matemática discreta II 2024
+#+AUTHOR: Tomás Maraschio
+#+STARTUP: latexpreview
+#+OPTIONS: toc:1
+#+LATEX_HEADER: \usepackage[spanish]{babel}
+#+LANGUAGE: es
+
+* Probar que el valor de todo flujo es menor o igual a la capacidad de todo corte. También que si f es flujo, es maximal si y solo si existe S corte con V(f) = Cap(S) y S es minimal. No hace falta probar que $V(f) = f(S, \overline{S}) - f(\overline{S}, S)$
+** Valor de todo flujo menor o igual a capacidad de todo corte
+\[
+f(\overline{S}, S) = \sum_{\substack{x \not\in S \\ y \in S \\ \overrightarrow{xy} \in E}} f(\overrightarrow{xy}) \ge 0 \text{ pues } f(\overrightarrow{xy}), \forall \overrightarrow{xy} \in E
+\]
+Entonces tengo $V(f) = f(S, \overline{S}) - f(\overline{S}, S) \le f(S, \overline{S}) \le c(S, \overline{S}) = Cap(S)$
+
+** $\impliedby$
+Sea f flujo y S corte con $V(f) = Cap(S)$. Para todo flujo g, por lo que probé arriba tengo $V(g) \le Cap(S) = V(f) \implies$ f es maximal. Además, para todo corte T tengo $Cap(T) \ge V(f) = Cap(S) \implies$ S es minimal.
+
+** $\implies$
+Sea f flujo maximal. Voy a construir un S y probaré que es un corte minimal con V(f) = Cap(S).
+\[ S = \{s\} \cup \{x \colon \text{existe f-camino aumentante de s a x}\} \]
+*** S es corte
+Sup. que no lo es. La única forma que pase esto es porque $t \not\in S$, pues $s \in S$. Pero esto significa que existe un f-camino aumentante de s a t, por lo que puedo aumentar f en ese camino. Absurdo porque f es maximal, luego S es corte.
+
+*** V(f) = Cap(S)
+Sean $x \in S, y \not\in S, \overrightarrow{xy} \in E$.
+\[ x \in S \implies \text{ existe f-camino aumentante de s a x} \]
+\[ y \not\in S \implies \text{ no existe f-camino aumentante de s a y} \]
+Entonces el camino $s \cdots x y$ podría ser aumentante, pero no lo es, y esto solo puede ser si $f(\overrightarrow{xy})=c(\overrightarrow{xy})$. Entonces
+\[f(S, \overline{S}) = \sum_{\substack{x \in S \\ y \not\in S \\ \overrightarrow{xy} \in E}} f(\overrightarrow{xy}) = \sum_{\substack{x \in S \\ y \not\in S \\ \overrightarrow{xy} \in E}} c(\overrightarrow{xy}) = c(S, \overline{S}) = Cap(S) \]
+
+
+Ahora sean $x \not\in S, y \in S, \overrightarrow{xy} \in E$.
+\[ x \not\in S \implies \text{ no existe f-camino aumentante de s a x} \]
+\[ y \in S \implies \text{ existe f-camino aumentante de s a y} \]
+Entonces el camino $s \cdots \overleftarrow{yx}$ podría ser aumentante, pero no lo es, y esto solo puede ser si $f(\overrightarrow{xy})=0$. Entonces
+\[f(\overline{S}, S) = \sum_{\substack{x \not\in S \\ y \in S \\ \overrightarrow{xy} \in E}} f(\overrightarrow{xy}) = \sum_{\substack{x \not\in S \\ y \in S \\ \overrightarrow{xy} \in E}} 0 = 0\]
+
+Finalmente: $V(f) = f(S, \overline{S}) - f(\overline{S}, S) = Cap(S) - 0 = Cap(S)$
+
+
+* Probar que si G es un grafo conexo no regular entonces $\chi(G) \le \Delta(G)$
+Sea $x$ tal que $d(x) = \delta(G)$. Corro BFS empezando por $x$ y guardo el orden inverso en que los vértices se visitaron. Ahora voy a correr greedy en este orden que acabo de guardar. Notar que en BFS todo vértice es incluido por un vértice que ya ha sido visitado, entonces en el orden inverso todo vértice tiene al menos un vecino por delante (excepto el x). Esto significa que para cada vértice $y$, en el peor caso va a tener $d(y)-1 < \Delta$ vecinos coloreados todos con un color distinto, entonces voy a poder elegir un color en $\{1,\cdots, \Delta\}$. Finalmente, cuando llego a x, como $d(x)=\delta<\Delta$, podré elegir algún color de $\{1,\cdots, \Delta\}$ que no está usado por ningún vecino de x para colorearlo. De esta forma tengo un coloreo propio de G que usa (a lo sumo) $\Delta$ colores, entonces $\chi(G) \le \Delta(G)$.
+
