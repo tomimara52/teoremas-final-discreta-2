@@ -6,6 +6,69 @@
 #+LATEX_HEADER: \usepackage[spanish]{babel}
 #+LANGUAGE: es
 
+* ¿Cuál es la complejidad de Dinic en ambas versiones? No hace falta probar que la distancia en NAs sucesivos aumenta
+Probaré que $Compl(Dinic) = O(n^2 \times m)$.
+** Complejidad de NAs
+Como en cada NA la distancia entre s y t aumenta, tendré a lo sumo O(n) NAs. Además, como uso BFS, la complejidad de construir cada NA es O(m).
+Entonces tengo que
+\begin{align*}
+Compl(Dinic) & = (Compl(\text{hallar flujo bloqueante}) + Compl(construir NA)) \times \# \text{cantidad de NAs} \\
+& = (Compl(\text{hallar flujo bloqueante}) + O(m)) \times O(n)
+\end{align*}
+Me basta probar que $Compl(\text{hallar flujo bloqueante}) = O(n \times m)$.
+
+** Versión original
+Los NAs en esta versión tienen la propiedad de que todo vértice tiene algún lado no saturado que va al siguiente nivel. Esto significa que DFS encuentra un camino de s a t sin tener que hacer backtracking. Entonces la complejidad de encontrar un camino en el NA es O(n° niveles) = O(n). Además, aumentar el flujo en un camino es O(n), pues hay que recorrer el camino dos veces. Ahora, como cada camino aumentante satura (al menos) un lado, tendré O(m) caminos aumentantes.
+Entonces por ahora tengo que la complejidad de encontrar los caminos y aumentar el flujo en ellos es ${O(n \times m)}$. Sin embargo, tengo que ver cuánto cuesta mantener la propiedad que mencioné al principio.
+
+Para mantener esa propiedad, luego de cada camino ejecuto el proceso 'podar', que va revisando los vertices desde los niveles superiores para abajo:
+- Si el vertice tiene lados que salen no hace nada
+- Si no tiene lados que salen, borra el vértice y sus lados al siguiente nivel
+
+Revisar si un vértice tiene lados que salen es O(1), y como luego de cada camino hago esto para cada vértice, esta parte me cuesta $O(n \times m)$.
+
+Ahora, borrar un vértice y sus lados se hace a lo sumo una vez por vértice y su complejidad es O(d(x)). Entonces, la complejidad sobre todos los 'podar' de esta parte es $\displaystyle\sum_{x \in V} d(x) = O(m)$.
+
+Finalmente, la complejidad de hallar flujo bloqueante es
+\[ O(n \times m) + O(n \times m) + O(m) = O(n \times m) \]
+
+** Versión occidental
+Daré el algoritmo que se usa para encontrar un flujo bloqueante g:
+#+begin_src
+  g := 0
+  while (1) {
+      p := [s]
+      x := s
+      while (x != t) {
+          if (VecinosAdelanteDe(x) != []) {      // Avanzar (A)
+              y := tomar de VecinosAdelanteDe(x)
+              agregar y al final de p
+              x := y
+          } else {
+              if (x != s) {                      // Retroceder (R)
+                  z := vértice anterior a x en p
+                  borrar zx
+                  x := z
+              } else {
+                  return g
+              }
+          }
+      }
+      aumentar g en p y borrar lados saturados   // Incrementar (I)
+  }
+#+end_src
+
+Notar que una corrida de este algoritmo es de la forma ${A \cdots AIA \cdots AIA \cdots AR \cdots}$ es decir, una sucesión de palabras de la forma ${A \cdots AX}$ donde X es I o R (excepto la última palabra de todas, que terminará con A). Además, ${O(A) = O(R) = O(1)}$ y ${O(I) = O(n)}$, pues para aumentar el flujo y borrar los lados tengo que recorrer el camino p dos veces y este tiene a lo sumo longitud n.
+
+Tengo que ver cuantas As puede haber en una palabra. Como cada A me lleva al siguiente nivel del NA, hay O(n) As en cada palabra. De esta forma, el coste de las palabras me quedó:
+- $Compl(A....AR) = O(n) + O(1) = O(n)$
+- $Compl(A....AI) = O(n) + O(n) = O(n)$
+
+Solo basta ver cuantas de estas palabras puede haber. Como cada R borra un lado y cada I borra al menos un lado, tengo que hay a lo sumo m palabras.
+
+Finalmente:
+\[ Compl(\text{hallar flujo bloqueante}) = O(n) \times O(m) = O(n \times m) \]
+
 * ¿Cuál es la complejidad del algoritmo de Wave? No hace falta probar que la distancia en NAs sucesivos aumenta
 Probaré que $Compl(Wave) = O(n^3)$.
 
