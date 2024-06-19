@@ -284,3 +284,58 @@ Nivel_{BFS}(u) - Nivel_{BFS}(w) + 1 + Nivel_{BFS}(v) - Nivel_{BFS}(w) \\
 = Nivel_{BFS}(u) + Nivel_{BFS}(v) + 2 \times Nivel_{BFS}(w) + 1
 \end{align*}
 lados, que es un número impar por (1).
+
+
+* Enunciar y probar el teorema de Hall
+El teorema de Hall dice que en un grafo bipartito con partes X e Y, existe un matching completo de X a Y si y solo si ${|\Gamma(S)| \ge |S|, \forall S \subseteq X}$. Notar que un matching M de X a Y es completo si |E(M)| = |X|.
+
+** $\implies$ ida
+Sea M un matching completo de X a Y. Este me induce una función inyectiva \[f: X \rightarrow Y\] tal que \[f(x) \in \Gamma(x).\] Luego, como f es inyectiva, tengo que \[|f(S)| = |S|, \forall S \subseteq X.\]
+Y además \[f(S) \subseteq \Gamma(S).\]
+Finalmente, tengo que \(|S| \le |\Gamma(S)|, \forall S \subseteq X\).
+
+** $\impliedby$ vuelta
+Sup. que se cumple ${|\Gamma(S)| \ge |S|, \forall S \subseteq X}$ (condición de Hall), pero que al correr el algoritmo de encontrar matching maximal llego a un M con ${|E(M)| < |X|.}$
+Trabajaré sobre la forma matricial del algoritmo.
+Sean
+\begin{align*}
+S & = \{\text{\small filas etiquetadas}\} \\
+T & = \{\text{\small columnas etiquetadas}\} \\
+S_0 & = \{\text{\small filas etiquetadas con }\star\} \\
+T_1 & = \{\text{\small columnas etiquetadas por }S_0\} \\
+S_1 & = \{\text{\small filas etiquetadas por } T_1\}
+\end{align*}
+Y en general:
+\begin{align*}
+T_{i+1} & = \{\text{\small columnas etiquetadas por }S_i\} \\
+S_i & = \{\text{\small filas etiquetadas por } T_i\}.
+\end{align*}
+Notar que como M no es completo, tengo algunas filas sin matchear, es decir que
+\[S_0 \ne \emptyset \tag{0}\]
+Además, es claro que
+\begin{align*}
+S & = S_0 \dot\cup S_1 \dot\cup S_2 \dot\cup \cdots \tag{1a} \\
+T & = T_1 \dot\cup T_2 \dot\cup T_3 \dot\cup \cdots \tag{1b}
+\end{align*}
+Ahora, cuando estoy viendo una columna pueden pasar dos cosas:
+- La columna está libre, entonces la matcheo y extiendo el matching. Esto no pasa porque M es maximal.
+- La columna está matcheada con una fila, entonces etiqueto _únicamente_ esa fila.
+Así, es claro que
+\[|T_i| = |S_i| \tag{2}\]
+y que el algoritmo se detiene al pasar de un \(S_k\) a un ${T_{k+1} = \emptyset}$. Entonces llego a que
+\begin{align*}
+S & = S_0 \dot\cup \cdots \dot\cup S_k \\
+T & = T_1 \dot\cup \cdots \dot\cup T_k 
+\end{align*}
+Juntando todo:
+\begin{align*}
+|S| & = |S_0| + |S_1| + \cdots + |S_k| \quad\text{por 1a} \\
+    & = |S_0| + |T_1| + \cdots + |T_k| \quad\text{por 2} \\
+    & = |S_0| + |T| \quad\text{por 1b} \\
+    & > |T| \quad\text{por 0}
+\end{align*}
+Ahora voy a ver que $T = \Gamma(S)$:
+- $T \subseteq \Gamma(S)$: sea $y \in T$, $y$ tuvo que ser etiquetado por una fila de S, y como cada fila etiqueta a sus columnas vecinas es claro que ${y \in \Gamma(S).}$
+- $\Gamma(S) \subseteq T$: sup. que existe un $y \in \Gamma(S)$ que no está en T. Existe un ${x \in S}$ que es vecino de $y$. Pero cuando revisé $x$, habría visto que $y$ era vecino suyo, y por lo tanto lo habría etiquetado. Absurdo pues supuse ${y \not\in T}$, luego, ${\Gamma(S) \subseteq T.}$
+
+Finalmente, construí un $S \subseteq X$ tal que no se cumple la condición de Hall. Lo que es un absurdo pues yo supuse que era cierta. Entonces este absurdo viene de suponer que el matching maximal no es completo.
