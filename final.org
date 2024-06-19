@@ -5,6 +5,41 @@
 #+LATEX_HEADER: \usepackage[spanish]{babel}
 #+LANGUAGE: es
 
+* ¿Cuál es la complejidad del algoritmo de Wave? No hace falta probar que la distancia en NAs sucesivos aumenta
+Probaré que $Compl(Wave) = O(n^3)$.
+
+Al igual que en Dinic, como la distancia entre s y t aumenta en NAs sucesivos, tengo O(n) NAs, pues t no puede estar a una distancia mayor a n de s.
+Ahora, como
+\[Compl(Wave) = (Compl(\text{hallar flujo bloqueante}) + Compl(\text{construir NA})) \times O(n)\]
+y $Compl(\text{construir NA}) = O(m)$ pues uso BFS, bastaría probar que \[Compl(\text{hallar flujo bloqueante}) = O(n^2).\] Notar que $O(n^2) + O(m) = O(n^2)$ pues $m \le \binom n2 = O(n^2)$.
+
+Voy a dividir el proceso de hallar un flujo bloqueante en casos.
+
+Cuando estoy balanceando vértices hacia adelante:
+- V: los pasos donde saturo un lado
+- P: los pasos donde no saturo un lado
+
+Cuando estoy balanceando los vértices hacia atrás:
+- S: los pasos donde vacío un lado
+- Q: los pasos donde no vacío un lado
+
+_V_:
+Sup. que x le manda flujo a z y $\overrightarrow{xz}$ se satura. Para que $\overrightarrow{xz}$ vuelva a saturarse, primero tiene que vaciarse un poco, pero si se vacía es porque z se bloqueó y entonces le devolvió flujo a x. Pero como z está bloqueado (y nunca se desbloqueará), x no le va a volver a mandar flujo a z. Entonces, cada lado puede saturarse a lo sumo una vez. \(\therefore Compl(V) = O(m).\)
+
+_S_:
+Sup. que x le devuelve flujo a z y $\overrightarrow{zx}$ se vacía. Como x devolvió flujo significa que está bloqueado, entonces z no volverá a mandarle flujo, entonces $\overrightarrow{zx}$ no se podrá llenar para volver a vaciarse. Esto implica que un lado se puede vaciar a lo sumo una vez. \(\therefore Compl(S) = O(m).\)
+
+_P_:
+Cuando un vértice manda flujo a sus vecinos para balancearse, satura todos los lados, excepto quizás uno. Esto significa que para cada vértice en cada ola hacia adelante se satura parcialmente a lo sumo un lado. Entonces \(Compl(P) = O(n) \times \# \text{olas hacia adelante}.\)
+
+Ahora, en cada ola hacia adelante (excepto la última) queda al menos un vértice desbalanceado, es decir que cada ola hacia adelante hace que se bloquee al menos un vértice. Y como no se desbloquean una vez bloqueados, tengo que \( \# \text{olas hacia adelante} = O(n). \therefore Compl(P) = O(n^2)\).
+
+_Q_:
+Cuando un vértice devuelve flujo a los vecinos, vacía todos los lados excepto quizás uno. Esto significa que para cada vértice en cada ola hacia atrás se vacía parcialmente a lo sumo un lado. Entonces $Compl(Q) = O(n) \times \# \text{olas hacia atrás} = O(n) \times \# \text{olas hacia adelante} = O(n^2)$.
+
+Finalmente, $Compl(\text{hallar flujo bloqueante}) = O(m) + O(n^2) + O(m) + O(n^2) = O(n^2)$.
+
+
 * Probar que el valor de todo flujo es menor o igual a la capacidad de todo corte. También que si f es flujo, es maximal si y solo si existe S corte con V(f) = Cap(S) y S es minimal. No hace falta probar que $V(f) = f(S, \overline{S}) - f(\overline{S}, S)$
 ** Valor de todo flujo menor o igual a capacidad de todo corte
 \[
