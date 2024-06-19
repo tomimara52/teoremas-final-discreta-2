@@ -6,6 +6,71 @@
 #+LATEX_HEADER: \usepackage[spanish]{babel}
 #+LANGUAGE: es
 
+* Probar que ${d_k(x) \le d_{k+1}(x)}$
+** Definiciones
+Primero, recuerdo las definiciones. Para un flujo f y vértices x,z:
+\begin{align*}
+d_f(x, z) =
+  \begin{cases}
+    0 \quad\text{si } x = z \\
+    \infty \quad\text{si no existe f-camino aumentante entre x y z} \\
+    \text{longitud del menor f-camino aumentante entre x y z}
+  \end{cases}
+\end{align*}
+A partir de esta puedo definir para ${f_0, f_1, f_2, \cdots}$ la sucesión de flujos producidos por Edmonds-Karp:
+\begin{align*}
+d_k(x) = d_{f_k}(s, x) \\
+b_k(x) = d_{f_k}(x, t) 
+\end{align*}
+Y además ${d_k(t) = d_k(x) + b_k(x)}$, si esos números son finitos.
+
+** Primera parte
+Sea el conjunto \[ A = \{x \in V : d_{k+1}(x) < d_k(x)\}, \] si pruebo que este conjunto es vacío ya está.
+Sup. que A no es vacío, entonces tomo ${x \in A}$ tal que ${ d_{k+1}(x) = min\{d_{k+1}(y) : y \in A\}. }$
+Además tengo que
+\[ d_{k+1}(x) < d_k(x) \le \infty \implies d_{k+1}(x) < \infty, \tag{0}\]
+lo que significa que existe un \(f_{k+1}\)-camino aumentante entre s y x. Y además como
+\[d_{k+1}(s) = d_k(s) = 0 \implies s \not\in A \implies x \ne s,\]
+sé que x tiene un elemento anterior en ese camino, el cual denotaré
+\[ p_{k+1} : s \cdots z x \]
+Ahora, como estoy usando E-K, ese camino es el de menor longitud entre s y x, lo que significa que también es el de menor longitud entre s y cualquier vértice anterior a x, porque si no podría encontrar un camino aún más corto a x. Entonces
+\[ d_{k+1}(x) = d_{k+1}(z) + 1 \tag{1}\]
+Luego, como ${d_{k+1}(z) < d_{k+1}(x)}$ y x es el elemento de A con menor $d_{k+1}$, sé que ${z \not\in A}$, lo que implica que
+\[ d_k(z) \le d_{k+1}(z) \tag{2} \]
+Juntando 0, 1 y 2 llego a ${d_k(z) < \infty}$, lo que significa que existe un \(f_k\)-camino aumentante de longitud mínima entre s y z de la forma ${p_k: s \cdots z}$.
+
+** Si $\overrightarrow{zx}$ es un lado
+En principio podría agregar x al final de $p_k$ para obtener un \(f_k\)-camino aumentante entre s y x. Pero si hago eso llego a
+\[ d_k(x) \le d_k(z)+1 \le d_{k+1}(z) + 1 = d_{k+1}(x), \]
+lo que es un absurdo porque x está en A. Este absurdo tiene que venir de que no puedo agregar x al camino, y esto tiene que ser porque ${f_k(\overrightarrow{zx}) = c(\overrightarrow{zx})}$. Pero en $p_{k+1}$ está el lado $\overrightarrow{zx}$, lo que significa que para pasar de $f_k$ a $f_{k+1}$ tuve que usarlo en modo backward. Es decir, existe un camino de longitud mínima (por usar E-K)
+\[ p_k': s \cdots \overleftarrow{xz} \cdots t, \]
+entonces ${d_k(z) = d_k(x) + 1}$. Luego,
+\begin{align*}
+d_k(z) & = d_k(x) + 1 \\
+       & > d_{k+1}(x) + 1 \\
+       & = d_{k+1}(z) + 2 \\
+       & \ge d_k(z) + 2
+\end{align*}
+Absurdo pues 0 < 2.
+
+** Si $\overrightarrow{xz}$ es un lado
+En principio podría agregar x al final de $p_k$ para obtener un \(f_k\)-camino aumentante entre s y x. Pero si hago eso llego a
+\[ d_k(x) \le d_k(z)+1 \le d_{k+1}(z) + 1 = d_{k+1}(x), \]
+lo que es un absurdo porque x está en A. Este absurdo tiene que venir de que no puedo agregar x al camino, y esto tiene que ser porque ${f_k(\overrightarrow{zx}) = 0}$. Pero en $p_{k+1}$ está el lado $\overleftarrow{zx}$, lo que significa que para pasar de $f_k$ a $f_{k+1}$ tuve que usarlo en modo forward. Es decir, existe un camino de longitud mínima (por usar E-K)
+\[ p_k': s \cdots xz \cdots t, \]
+entonces ${d_k(z) = d_k(x) + 1}$. Luego,
+\begin{align*}
+d_k(z) & = d_k(x) + 1 \\
+       & > d_{k+1}(x) + 1 \\
+       & = d_{k+1}(z) + 2 \\
+       & \ge d_k(z) + 2
+\end{align*}
+Absurdo pues 0 < 2.
+
+** Conclusión
+En ambos casos llego a un absurdo, y este absurdo viene de suponer que ${A \ne \emptyset}$, entonces A es vacío y finalmente \[ d_k(x) \le d_{k+1}(x) \]
+
+
 * ¿Cuál es la complejidad de Dinic en ambas versiones? No hace falta probar que la distancia en NAs sucesivos aumenta
 Probaré que $Compl(Dinic) = O(n^2 \times m)$.
 ** Complejidad de NAs
