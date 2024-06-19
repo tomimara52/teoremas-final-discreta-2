@@ -1,0 +1,10 @@
+* ¿Qué es esto?
+Estos son las demostraciones de los teoremas que entran al final de discreta 2 de julio de 2024.
+* Herramientas que usé 
+El archivo .tex fue generado por la herramienta de exportación a LaTeX que viene con org-mode en emacs.
+
+A github no le gustan muchos los archivos .org, así que recomiendo mirarlo en algún otro lado.
+
+El pdf fue generado por la herramienta ```pdflatex``` usando el .tex.
+* Contribuciones
+Si encontrás algún error o querés proponer un cambió no dudes en hacer un pull request.
