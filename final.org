@@ -8,7 +8,7 @@
 #+LANGUAGE: es
 
 * ¿Cuál es la complejidad de Edmonds-Karp?
-Para esta demostración usaré las definiciones y resultados de [[id:distancias][este teorema]].
+Para esta demostración usaré las definiciones y resultados de [[id:distancias][_este teorema_]].
 *La complejidad de EK es $O(n \times m^2)$*. EK encuentra un camino aumentante de s a t y aumenta el flujo a lo largo de este, esto lo hace hasta que no encuentra más caminos aumentantes. Por lo tanto, su complejidad viene dada por:
 \[(Compl(\text{\small aumentar flujo}) + Compl(\text{\small encontrar camino aumentante})) \times \# \text{\small caminos aumentantes} \]
 La complejidad de aumentar el flujo en un camino es O(n), pues el camino tiene a lo sumo n vértices, y tengo que recorrerlo dos veces. La complejidad de encontrar un camino aumentante es O(m) porque uso BFS. Luego, como n < m-2, tengo que
