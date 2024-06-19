@@ -259,3 +259,28 @@ Finalmente: $V(f) = f(S, \overline{S}) - f(\overline{S}, S) = Cap(S) - 0 = Cap(S
 * Probar que si G es un grafo conexo no regular entonces $\chi(G) \le \Delta(G)$
 Sea $x$ tal que $d(x) = \delta(G)$. Corro BFS empezando por $x$ y guardo el orden inverso en que los vértices se visitaron. Ahora voy a correr greedy en este orden que acabo de guardar. Notar que en BFS todo vértice es incluido por un vértice que ya ha sido visitado, entonces en el orden inverso todo vértice tiene al menos un vecino por delante (excepto el x). Esto significa que para cada vértice $y$, en el peor caso va a tener $d(y)-1 < \Delta$ vecinos coloreados todos con un color distinto, entonces voy a poder elegir un color en $\{1,\cdots, \Delta\}$. Finalmente, cuando llego a x, como $d(x)=\delta<\Delta$, podré elegir algún color de $\{1,\cdots, \Delta\}$ que no está usado por ningún vecino de x para colorearlo. De esta forma tengo un coloreo propio de G que usa (a lo sumo) $\Delta$ colores, entonces $\chi(G) \le \Delta(G)$.
 
+
+
+* Probar que 2-COLOR es polinomial
+Para ello voy a dar un algoritmo polinomial que colorea un grafo con dos colores. Luego probaré que si el coloreo que da mi algoritmo no es propio es porque en el grafo hay algún ciclo impar, lo que implicaría $\chi(G) \ge 3$. Notar que voy a asumir que el grafo es conexo, sin embargo si no lo es, simplemente hay que correr el algoritmo en todas sus componentes conexas y ver que todas sean bipartitas.
+
+** Algoritmo
+Agarro un vértice x de G y corro BFS empezando en él. Luego a cada vértice y le asigno el color \(Nivel_{BFS}(y) \text{ mod 2}\). Esto es lo mismo que pintar a x del color 1, y luego cada vez que un vértice z agrega a un vértice y en BFS, asigno $c(y) = 1 - c(z)$. Es claro que esta parte es O(m) por usar BFS.
+
+Ahora tengo que revisar que el coloreo sea en efecto propio, lo que cuesta ${\displaystyle\sum_{x \in V} O(d(x)) = O(m)}$. Entonces llego a que mi algoritmo es polinomial.
+** ¿Qué pasa cuando el coloreo que di no es propio?
+Eso significa que \(\exists u,v \in V : c(u) = c(v) \land uv \in E \). Entonces
+\begin{align*}
+Nivel_{BFS}(u) \text{ mod 2} = Nivel_{BFS}(v) \text{ mod 2} \\
+\implies Nivel_{BFS}(u) + Nivel_{BFS}(v) \text{ es par} \tag{1}
+\end{align*}
+Como u y v fueron agregados por un BFS desde x, sé que existe un camino de x a u y un camino de x a v. Ahora sea w el vértice tal que estos dos caminos se separan (notar que w puede ser x), voy a calcular la cantidad de lados en el ciclo ${w \cdots u v \cdots w}$.
+- En $w \cdots u$ hay $Nivel_{BFS}(u) - Nivel_{BFS}(w)$ lados.
+- En $uv$ hay 1 lado.
+- En $v \cdots w$ hay $Nivel_{BFS}(v) - Nivel_{BFS}(w)$ lados.
+Luego en el ciclo hay
+\begin{align*}
+Nivel_{BFS}(u) - Nivel_{BFS}(w) + 1 + Nivel_{BFS}(v) - Nivel_{BFS}(w) \\
+= Nivel_{BFS}(u) + Nivel_{BFS}(v) + 2 \times Nivel_{BFS}(w) + 1
+\end{align*}
+lados, que es un número impar por (1).
