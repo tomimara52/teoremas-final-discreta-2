@@ -1,6 +1,7 @@
 #+TITLE: Teoremas para el final de matemática discreta II 2024
 #+AUTHOR: Tomás Maraschio
 #+STARTUP: latexpreview
+#+STARTUP: overview
 #+OPTIONS: toc:1
 #+OPTIONS: num:2
 #+LATEX_HEADER: \usepackage[spanish]{babel}
