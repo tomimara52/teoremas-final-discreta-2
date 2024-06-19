@@ -1,0 +1,114 @@
+% Created 2024-06-18 Tue 21:43
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[spanish]{babel}
+\author{Tomás Maraschio}
+\date{\today}
+\title{Teoremas para el final de matemática discreta II 2024}
+\hypersetup{
+ pdfauthor={Tomás Maraschio},
+ pdftitle={Teoremas para el final de matemática discreta II 2024},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.3 (Org mode 9.6.15)}, 
+ pdflang={Spanish}}
+\begin{document}
+
+\maketitle
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+
+\section{¿Cuál es la complejidad del algoritmo de Wave? No hace falta probar que la distancia en NAs sucesivos aumenta}
+\label{sec:org4cb7881}
+Probaré que \(Compl(Wave) = O(n^3)\).
+
+Al igual que en Dinic, como la distancia entre s y t aumenta en NAs sucesivos, tengo O(n) NAs, pues t no puede estar a una distancia mayor a n de s.
+Ahora, como
+\[Compl(Wave) = (Compl(\text{hallar flujo bloqueante}) + Compl(\text{construir NA})) \times O(n)\]
+y \(Compl(\text{construir NA}) = O(m)\) pues uso BFS, bastaría probar que \[Compl(\text{hallar flujo bloqueante}) = O(n^2).\] Notar que \(O(n^2) + O(m) = O(n^2)\) pues \(m \le \binom n2 = O(n^2)\).
+
+Voy a dividir el proceso de hallar un flujo bloqueante en casos.
+
+Cuando estoy balanceando vértices hacia adelante:
+\begin{itemize}
+\item V: los pasos donde saturo un lado
+\item P: los pasos donde no saturo un lado
+\end{itemize}
+
+Cuando estoy balanceando los vértices hacia atrás:
+\begin{itemize}
+\item S: los pasos donde vacío un lado
+\item Q: los pasos donde no vacío un lado
+\end{itemize}
+
+\uline{V}:
+Sup. que x le manda flujo a z y \(\overrightarrow{xz}\) se satura. Para que \(\overrightarrow{xz}\) vuelva a saturarse, primero tiene que vaciarse un poco, pero si se vacía es porque z se bloqueó y entonces le devolvió flujo a x. Pero como z está bloqueado (y nunca se desbloqueará), x no le va a volver a mandar flujo a z. Entonces, cada lado puede saturarse a lo sumo una vez. \(\therefore Compl(V) = O(m).\)
+
+\uline{S}:
+Sup. que x le devuelve flujo a z y \(\overrightarrow{zx}\) se vacía. Como x devolvió flujo significa que está bloqueado, entonces z no volverá a mandarle flujo, entonces \(\overrightarrow{zx}\) no se podrá llenar para volver a vaciarse. Esto implica que un lado se puede vaciar a lo sumo una vez. \(\therefore Compl(S) = O(m).\)
+
+\uline{P}:
+Cuando un vértice manda flujo a sus vecinos para balancearse, satura todos los lados, excepto quizás uno. Esto significa que para cada vértice en cada ola hacia adelante se satura parcialmente a lo sumo un lado. Entonces \(Compl(P) = O(n) \times \# \text{olas hacia adelante}.\)
+
+Ahora, en cada ola hacia adelante (excepto la última) queda al menos un vértice desbalanceado, es decir que cada ola hacia adelante hace que se bloquee al menos un vértice. Y como no se desbloquean una vez bloqueados, tengo que \(\# \text{olas hacia adelante} = O(n). \therefore Compl(P) = O(n^2)\).
+
+\uline{Q}:
+Cuando un vértice devuelve flujo a los vecinos, vacía todos los lados excepto quizás uno. Esto significa que para cada vértice en cada ola hacia atrás se vacía parcialmente a lo sumo un lado. Entonces \(Compl(Q) = O(n) \times \# \text{olas hacia atrás} = O(n) \times \# \text{olas hacia adelante} = O(n^2)\).
+
+Finalmente, \(Compl(\text{hallar flujo bloqueante}) = O(m) + O(n^2) + O(m) + O(n^2) = O(n^2)\).
+
+\section{Probar que el valor de todo flujo es menor o igual a la capacidad de todo corte. También que si f es flujo, es maximal si y solo si existe S corte con V(f) = Cap(S) y S es minimal. No hace falta probar que \(V(f) = f(S, \overline{S}) - f(\overline{S}, S)\)}
+\label{sec:org0102778}
+\subsection{Valor de todo flujo menor o igual a capacidad de todo corte}
+\label{sec:orgcfb895f}
+\[
+f(\overline{S}, S) = \sum_{\substack{x \not\in S \\ y \in S \\ \overrightarrow{xy} \in E}} f(\overrightarrow{xy}) \ge 0 \text{ pues } f(\overrightarrow{xy}), \forall \overrightarrow{xy} \in E
+\]
+Entonces tengo \(V(f) = f(S, \overline{S}) - f(\overline{S}, S) \le f(S, \overline{S}) \le c(S, \overline{S}) = Cap(S)\)
+
+\subsection{\(\impliedby\)}
+\label{sec:org03282c1}
+Sea f flujo y S corte con \(V(f) = Cap(S)\). Para todo flujo g, por lo que probé arriba tengo \(V(g) \le Cap(S) = V(f) \implies\) f es maximal. Además, para todo corte T tengo \(Cap(T) \ge V(f) = Cap(S) \implies\) S es minimal.
+
+\subsection{\(\implies\)}
+\label{sec:org7f132ff}
+Sea f flujo maximal. Voy a construir un S y probaré que es un corte minimal con V(f) = Cap(S).
+\[ S = \{s\} \cup \{x \colon \text{existe f-camino aumentante de s a x}\} \]
+\subsubsection{S es corte}
+\label{sec:org9296e6d}
+Sup. que no lo es. La única forma que pase esto es porque \(t \not\in S\), pues \(s \in S\). Pero esto significa que existe un f-camino aumentante de s a t, por lo que puedo aumentar f en ese camino. Absurdo porque f es maximal, luego S es corte.
+
+\subsubsection{V(f) = Cap(S)}
+\label{sec:org5a3a595}
+Sean \(x \in S, y \not\in S, \overrightarrow{xy} \in E\).
+\[ x \in S \implies \text{ existe f-camino aumentante de s a x} \]
+\[ y \not\in S \implies \text{ no existe f-camino aumentante de s a y} \]
+Entonces el camino \(s \cdots x y\) podría ser aumentante, pero no lo es, y esto solo puede ser si \(f(\overrightarrow{xy})=c(\overrightarrow{xy})\). Entonces
+\[f(S, \overline{S}) = \sum_{\substack{x \in S \\ y \not\in S \\ \overrightarrow{xy} \in E}} f(\overrightarrow{xy}) = \sum_{\substack{x \in S \\ y \not\in S \\ \overrightarrow{xy} \in E}} c(\overrightarrow{xy}) = c(S, \overline{S}) = Cap(S) \]
+
+
+Ahora sean \(x \not\in S, y \in S, \overrightarrow{xy} \in E\).
+\[ x \not\in S \implies \text{ no existe f-camino aumentante de s a x} \]
+\[ y \in S \implies \text{ existe f-camino aumentante de s a y} \]
+Entonces el camino \(s \cdots \overleftarrow{yx}\) podría ser aumentante, pero no lo es, y esto solo puede ser si \(f(\overrightarrow{xy})=0\). Entonces
+\[f(\overline{S}, S) = \sum_{\substack{x \not\in S \\ y \in S \\ \overrightarrow{xy} \in E}} f(\overrightarrow{xy}) = \sum_{\substack{x \not\in S \\ y \in S \\ \overrightarrow{xy} \in E}} 0 = 0\]
+
+Finalmente: \(V(f) = f(S, \overline{S}) - f(\overline{S}, S) = Cap(S) - 0 = Cap(S)\)
+
+
+\section{Probar que si G es un grafo conexo no regular entonces \(\chi(G) \le \Delta(G)\)}
+\label{sec:org6db6306}
+Sea \(x\) tal que \(d(x) = \delta(G)\). Corro BFS empezando por \(x\) y guardo el orden inverso en que los vértices se visitaron. Ahora voy a correr greedy en este orden que acabo de guardar. Notar que en BFS todo vértice es incluido por un vértice que ya ha sido visitado, entonces en el orden inverso todo vértice tiene al menos un vecino por delante (excepto el x). Esto significa que para cada vértice \(y\), en el peor caso va a tener \(d(y)-1 < \Delta\) vecinos coloreados todos con un color distinto, entonces voy a poder elegir un color en \(\{1,\cdots, \Delta\}\). Finalmente, cuando llego a x, como \(d(x)=\delta<\Delta\), podré elegir algún color de \(\{1,\cdots, \Delta\}\) que no está usado por ningún vecino de x para colorearlo. De esta forma tengo un coloreo propio de G que usa (a lo sumo) \(\Delta\) colores, entonces \(\chi(G) \le \Delta(G)\).
+\end{document}
