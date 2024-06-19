@@ -2,7 +2,7 @@
 #+AUTHOR: Tomás Maraschio
 #+STARTUP: latexpreview
 #+OPTIONS: toc:1
-#+OPTIONS: num:1
+#+OPTIONS: num:2
 #+LATEX_HEADER: \usepackage[spanish]{babel}
 #+LANGUAGE: es
 
@@ -38,7 +38,7 @@ Ahora, en cada ola hacia adelante (excepto la última) queda al menos un vértic
 _Q_:
 Cuando un vértice devuelve flujo a los vecinos, vacía todos los lados excepto quizás uno. Esto significa que para cada vértice en cada ola hacia atrás se vacía parcialmente a lo sumo un lado. Entonces $Compl(Q) = O(n) \times \# \text{olas hacia atrás} = O(n) \times \# \text{olas hacia adelante} = O(n^2)$.
 
-Finalmente, $Compl(\text{hallar flujo bloqueante}) = O(m) + O(n^2) + O(m) + O(n^2) = O(n^2)$.
+*Finalmente, $Compl(\text{hallar flujo bloqueante}) = O(m) + O(n^2) + O(m) + O(n^2) = O(n^2)$.*
 
 
 * Probar que el valor de todo flujo es menor o igual a la capacidad de todo corte. También que si f es flujo, es maximal si y solo si existe S corte con V(f) = Cap(S) y S es minimal. No hace falta probar que $V(f) = f(S, \overline{S}) - f(\overline{S}, S)$
