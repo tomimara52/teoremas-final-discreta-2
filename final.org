@@ -13,9 +13,9 @@ Primero, recuerdo las definiciones. Para un flujo f y vértices x,z:
 \begin{align*}
 d_f(x, z) =
   \begin{cases}
-    0 \quad\text{si } x = z \\
-    \infty \quad\text{si no existe f-camino aumentante entre x y z} \\
-    \text{longitud del menor f-camino aumentante entre x y z}
+    0 & \text{si } x = z \\
+    \infty & \text{si no existe f-camino aumentante entre x y z} \\
+    & \text{longitud del menor f-camino aumentante entre x y z}
   \end{cases}
 \end{align*}
 A partir de esta puedo definir para ${f_0, f_1, f_2, \cdots}$ la sucesión de flujos producidos por Edmonds-Karp:
