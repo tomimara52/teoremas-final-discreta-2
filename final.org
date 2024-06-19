@@ -339,3 +339,29 @@ Ahora voy a ver que $T = \Gamma(S)$:
 - $\Gamma(S) \subseteq T$: sup. que existe un $y \in \Gamma(S)$ que no está en T. Existe un ${x \in S}$ que es vecino de $y$. Pero cuando revisé $x$, habría visto que $y$ era vecino suyo, y por lo tanto lo habría etiquetado. Absurdo pues supuse ${y \not\in T}$, luego, ${\Gamma(S) \subseteq T.}$
 
 Finalmente, construí un $S \subseteq X$ tal que no se cumple la condición de Hall. Lo que es un absurdo pues yo supuse que era cierta. Entonces este absurdo viene de suponer que el matching maximal no es completo.
+
+
+* Enunciar y probar el teorema del matrimonio de Koenig
+Este teorema dice que todo grafo bipartito regular tiene un matchig perfecto. Un matching es perfecto si es completo en ambos sentidos.
+
+Defino
+\[ E_W = \{wu \in E : w \in W\} \quad\text{ para } W \subseteq V \]
+Sean X e Y las partes del grafo. Sea $S \subseteq X$ y \(l \in E_S.\) Entonces existen ${x \in S}$ y ${y \in Y}$ tales que \({l = xy}.\) Entonces ${y \in \Gamma(x) \subseteq \Gamma(S),}$ por lo que \({l \in E_{\Gamma(S)}.}\) Finalmente llego a
+\[ E_S \subseteq E_{\Gamma(S)} \implies |E_S| \le |E_{\Gamma(S)}|, \forall S \subseteq X \]
+
+Ahora calcularé cuanto vale ${|E_W|}$ para \({W \subseteq X}\) o \({W \subseteq Y.}\) Sea ${wu \in E_W}$, es claro que ${u \not\in W,}$ pues ${w \in X}$ o \({w \in Y},\) entonces
+\[ E_W = \dot\bigcup_{w \in W} \{wu : u \in \Gamma(w)\} \]
+Entonces
+\begin{align*}
+|E_W| & = \sum_{w \in W} |\{ wu : u \in \Gamma(w) \}| \\
+      & = \sum_{w \in W} d(w) \\
+      & = \sum_{w \in W} \Delta \quad\text{pues el grafo es regular} \\
+      & = |W| \times \Delta
+\end{align*}
+Luego
+\begin{align*}
+|E_S| \le |E_\Gamma(S)| & \Leftrightarrow |S| \times \Delta \le |\Gamma(S)| \times \Delta \\
+                        & \Leftrightarrow |S| \le |\Gamma(S)|
+\end{align*}
+
+Así, por teorema de Hall, sé que hay matching completo de X a Y. Pero la elección de X sobre Y en esta demostración fue arbitraria, por lo que la podría repetir para un ${S \subseteq Y}$ y llegar a que hay un matching completo de Y a X. Esto significa que ${|X| \le |Y|}$ y ${|X| \ge |Y|}$, por lo que ${|X| = |Y|,}$ entonces el matching es perfecto.
