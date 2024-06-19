@@ -48,10 +48,10 @@ f(\overline{S}, S) = \sum_{\substack{x \not\in S \\ y \in S \\ \overrightarrow{x
 \]
 Entonces tengo $V(f) = f(S, \overline{S}) - f(\overline{S}, S) \le f(S, \overline{S}) \le c(S, \overline{S}) = Cap(S)$
 
-** $\impliedby$
+** $\impliedby$ vuelta
 Sea f flujo y S corte con $V(f) = Cap(S)$. Para todo flujo g, por lo que probé arriba tengo $V(g) \le Cap(S) = V(f) \implies$ f es maximal. Además, para todo corte T tengo $Cap(T) \ge V(f) = Cap(S) \implies$ S es minimal.
 
-** $\implies$
+** $\implies$ ida
 Sea f flujo maximal. Voy a construir un S y probaré que es un corte minimal con V(f) = Cap(S).
 \[ S = \{s\} \cup \{x \colon \text{existe f-camino aumentante de s a x}\} \]
 *** S es corte
