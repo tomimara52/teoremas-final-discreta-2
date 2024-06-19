@@ -2,6 +2,7 @@
 #+AUTHOR: Tomás Maraschio
 #+STARTUP: latexpreview
 #+OPTIONS: toc:1
+#+OPTIONS: num:1
 #+LATEX_HEADER: \usepackage[spanish]{babel}
 #+LANGUAGE: es
 
