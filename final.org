@@ -401,3 +401,37 @@ Juntando todo tengo:
             & \implies \\
       |C| & \le \frac{2^n}{\displaystyle\sum_{r=0}^t \binom{n}{r}}
       \end{align*}
+
+
+* Probar que si ${C = Nu(H)}$, entonces ${\delta(C)}$ = tamaño del mínimo conjunto de columnas de H que es LD
+Sean ${m = \min\{j : \exists \text{ conjunto LD de j columnas de H}\}}$ y ${\delta = \delta(C).}$
+
+** $m \le \delta$
+Como C es lineal,
+      \[ \delta = \min\{|x| : x \in C \land x \ne 0  \} \]
+Sea $x$ tal que ${|x| = \delta.}$ ${\exists i_1, \cdots i_{\delta} }$ tales que $x$ tiene un 1 en esas posiciones y un 0 en las demás. Entonces tengo que
+      \[ x = e_{i_1} + \cdots + e_{i_\delta} \]
+Además, como ${x \in C = Nu(H)}$, ${H \cdot x^T = 0.}$
+
+Luego,
+\begin{align*}
+	0 & = H \cdot x^T \\
+    & = H \cdot (e_{i_1} + \cdots + e_{i_\delta})^T \\
+    & = H \cdot (e_{i_1}^T + \cdots + e_{i_\delta}^T) \\
+    & = H \cdot e_{i_1}^T + \cdots + H \cdot e_{i_\delta}^T) \\
+    & = H^{(i_1)} + \cdots + H^{(i_\delta)}
+\end{align*}
+
+Entonces, como existe un subconjunto de $\delta$ columnas que es LD, ${m \le \delta.}$
+
+** ${\delta \le m}$
+Por como definí $m$, sé que hay un conjunto de $m$ columnas que es LD. Sean ${H^{(j_1)}, \cdots, H^{(j_m)}}$ esas columnas. Luego, sea ${x = e_{j_1} + \cdots + e_{j_m}.}$
+\begin{align*}
+	H \cdot x^T & = H \cdot (e_{j_1} + \cdots + e_{j_m})^T \\
+              & = H \cdot (e_{j_1}^T + \cdots + e_{j_m}^T) \\
+              & = H \cdot e_{j_1}^T + \cdots + H \cdot e_{j_m}^T \\
+              & = H^{(j_1)} + \cdots + H^{(j_m)} \\
+              & = 0
+\end{align*}
+
+Entonces ${ x \in Nu(H) = C, }$ y como ${x \ne 0,}$ tengo que ${\delta \le |x| = m. }$
