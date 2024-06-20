@@ -365,3 +365,39 @@ Luego
 \end{align*}
 
 Así, por teorema de Hall, sé que hay matching completo de X a Y. Pero la elección de X sobre Y en esta demostración fue arbitraria, por lo que la podría repetir para un ${S \subseteq Y}$ y llegar a que hay un matching completo de Y a X. Esto significa que ${|X| \le |Y|}$ y ${|X| \ge |Y|}$, por lo que ${|X| = |Y|,}$ entonces el matching es perfecto.
+
+
+* Enunciar y probar el teorema de la cota de Hamming
+
+** Teorema
+Para todo código $C \in \{0, 1\}^n$ con $t = \lfloor \frac{\delta-1}{2} \rfloor$:
+                    \[ |C| \le \frac{2^n}{1 + n + \binom{n}{2} + \cdots + \binom{n}{t}} \]
+** Demostración
+Sea
+          \[ A = \bigcup_{v \in C} D_t(v) \]
+buscaré $|A|$.
+
+Como $C$ corrige t errores, tengo que
+      \[ D_t(v) \cap D_t(w) = \emptyset, \forall v,w \in C \text{ tales que } v \ne w \]
+Luego, es claro que A es unión disjunta.
+
+Ahora, defino
+      \[ S_r(v) = \{ w \in C : d_H(v, w) = r \} \]
+De esta forma es claro que
+      \[ D_t(v) = \bigcup_{r = 0}^t S_r(v) \quad\text{unión disjunta}\]
+
+Sea $w \in S_r(v)$, hay un subconjunto de los n bits de las palabras que tiene r elementos tal que $w$ difiere de $v$ en esos r bits. Con esto en mente:
+- Dado $w \in S_r(v)$, puedo obtener r bits en los que $v$ y $w$ difieren.
+- Dado un conjunto de r bits, puedo obtener un $w$ tal que ${ d_H(v, w) = r. }$
+Así, existe una biyección entre $S_r(v)$ y el conjunto de subconjuntos de r bits. Entonces la cardinalidad de estos conjuntos es la misma. Finalmente:
+      \[ |S_r(v)| = \binom{n}{r} \implies |D_t(v)| = \sum_{r=0}^t \binom{n}{r} \]
+
+Juntando todo tengo:
+      \begin{align*}
+        |A| & = \sum_{v \in C} |D_t(v)| \\
+            & = \sum_{v \in C} \sum_{r=0}^t \binom{n}{r} \\
+            & = |C| \times \sum_{r=0}^t \binom{n}{r} \\
+            & \le 2^n \quad\text{pues } A \subseteq \{0, 1\}^n \\
+            & \implies \\
+      |C| & \le \frac{2^n}{\displaystyle\sum_{r=0}^t \binom{n}{r}}
+      \end{align*}
