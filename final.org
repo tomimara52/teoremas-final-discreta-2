@@ -435,3 +435,78 @@ Por como definí $m$, sé que hay un conjunto de $m$ columnas que es LD. Sean ${
 \end{align*}
 
 Entonces ${ x \in Nu(H) = C, }$ y como ${x \ne 0,}$ tengo que ${\delta \le |x| = m. }$
+
+
+* Sea un código C de longitud n, dimensión k y polinomio generador g(x), probar que:
+1.  ${C = \{p(x) : gr(p) < n \land g(x) | p(x) \} = C_1}$
+2.  ${C = \{v(x) \odot g(x) : v(x) \text{ es un polinomio cualquiera} \} = C_2}$
+3. ${ gr(g) = n - k }$
+4. ${ g(x) | (1+x^n) }$
+
+** 1 y 2
+Para probar esto, probaré que ${ C_1 \subseteq C_2 \subseteq C \subseteq C_1. }$
+
+*** _$C_1 \subseteq C_2$_
+Sea $p(x) \in C_1$, entonces existe $q(x)$ tal que ${p(x) = g(x) \cdot q(x).}$ Además
+      \[ n > gr(p) = gr(g(x) \cdot q(x)) \]
+Entonces es claro que
+      \[ p(x) = g(x) \cdot q(x) = g(x) \odot q(x) \in C_2 \]
+
+*** _$C_2 \subseteq C$_
+Sea ${ p(x) = v(x) \odot g(x) \in C_2, }$ con $v(x)$ un polinomio cualquiera de la forma
+      \[ v(x) = v_0 + v_1 \cdot x + v_2 \cdot x^2 + \cdots + v_{gr(v)} \cdot x^{gr(v)} \]
+Entonces:
+\begin{align*}
+p(x) & = v(x) \odot g(x) \\
+     & = (v_0 + v_1 \cdot x + v_2 \cdot x^2 + \cdots + v_{gr(v)} \cdot x^{gr(v)}) \odot g(x) \\
+     & = v_0 \odot g(x) + v_1 \cdot (x \odot g(x)) + v_2 \cdot (x^2 \odot g(x)) + \cdots + v_{gr(v)} \cdot (x^{gr(v)} \odot g(x)) \\
+     & = v_0 \cdot g(x) + v_1 \cdot Rot(g(x)) + v_2 \cdot Rot^2(g(x)) + \cdots + v_{gr(v)} \cdot Rot^{gr(v)}(g(x)) \\
+     & \in C
+\end{align*}
+Pues todas las rotaciones de $g(x)$ están en $C$.
+
+*** _$C \subseteq C_1$_
+Sea \(p(x) \in C,\) es claro que ${gr(p) < n,}$ falta ver que ${g(x) | p(x). }$ Entonces voy a dividir $p$ por $g$:
+      \[ \exists q(x),r(x) : p(x) = g(x) \cdot q(x) + r(x) \land gr(r) < gr(g) \]
+
+Ahora tomo módulo:
+\begin{align*}
+	p(x) & = p(x) \text{ mod } (1 + x^n) \\
+	     & = (g(x) \cdot q(x) + r(x)) \text{ mod } (1 + x^n) \\
+       & = g(x) \odot q(x) + (r(x) \text{ mod } (1 + x^n)) \\
+       & = g(x) \odot q(x) + r(x) \quad\text{pues } gr(r) < gr(g) < n
+\end{align*}
+Entonces tengo que
+      \[ r(x) = p(x) + g(x) \odot q(x) \]
+Y como $p \in C$ y ${g(x) \odot q(x) \in C_2 \subseteq C,}$ entonces ${ r \in C.}$ Pero como $g$, es el generador, este es el único polinomio no nulo de menor grado en ${C,}$ y como ${gr(r)<gr(g),}$ entonces ${r(x) = 0.}$
+
+Finalmente, como $g(x) | p(x)$, ${p(x) \in C_1.}$
+
+** 3
+Sea $p(x) \in C$, entonces existe $q(x)$ tal que ${ p(x) = g(x) \cdot q(x) .}$ Además ${n > gr(p) = gr(g) + gr(q) }$, entonces ${ gr(q) < n - gr(g) .}$
+Ahora, sea un $q(x)$ tal que $gr(q) < n - gr(g)$, tengo que ${ g(x) \cdot q(x) \in C. }$
+
+Es decir, hay una biyección entre $C$ y el conjunto de polinomios de grado menor a ${n - gr(g).}$ Entonces:
+\begin{align*}
+	|C| & = |\text{conjunto de polinomios de grado menor a } n - gr(g)| \\
+      \iff & \\
+  2^k & = 2^{n - gr(g)} \\
+      \iff & \\
+    k & = n - gr(g) \\
+      \iff & \\
+    gr(g) & = n - k \\
+\end{align*}
+
+** 4
+Divido $1+x^n$ por $g(x)$:
+      \[ \exists q(x), r(x) : 1 + x^n = g(x) \cdot q(x) + r(x) \land gr(r) < gr(g) \]
+Ahora, si tomo módulo:
+\begin{align*}
+	0 & = (1 + x^n) \text{ mod } (1 + x^n) \\
+    & = g(x) \cdot q(x) + r(x) \text{ mod } (1 + x^n) \\
+    & = g(x) \odot q(x) + (r(x) \text{ mod } (1 + x^n)) \\
+    & = g(x) \odot q(x) + r(x) \quad\text{pues } gr(r) < gr(g) < n \\
+\implies \\
+r(x) & = g(x) \odot q(x) \in C
+\end{align*}
+Pero como $g$, es el polinomio de $C$ no nulo de menor grado y ${gr(r) < gr(g),}$ entonces ${r(x) = 0}$ y ${g(x) | (1 + x^n).}$
