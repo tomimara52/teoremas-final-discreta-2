@@ -34,23 +34,23 @@
 \section{¿Cuál es la complejidad de Edmonds-Karp?}
 \label{sec:orga3af120}
 Para esta demostración usaré las definiciones y resultados de \hyperref[sec:org5e7ceee]{\uline{este teorema}}.
-\textbf{La complejidad de EK es \(O(n \times m^2)\)}. EK encuentra un camino aumentante de s a t y aumenta el flujo a lo largo de este, esto lo hace hasta que no encuentra más caminos aumentantes. Por lo tanto, su complejidad viene dada por:
+\textbf{La complejidad de EK es \(O(n \times m^2)\)}. EK encuentra un camino aumentante de $s$ a $t$ y aumenta el flujo a lo largo de este, esto lo hace hasta que no encuentra más caminos aumentantes. Por lo tanto, su complejidad viene dada por:
 \[(Compl(\text{\small aumentar flujo}) + Compl(\text{\small encontrar camino aumentante})) \times \# \text{\small caminos aumentantes} \]
-La complejidad de aumentar el flujo en un camino es O(n), pues el camino tiene a lo sumo n vértices, y tengo que recorrerlo dos veces. La complejidad de encontrar un camino aumentante es O(m) porque uso BFS. Luego, como n < m-2, tengo que
+La complejidad de aumentar el flujo en un camino es $O(n)$, pues el camino tiene a lo sumo $n$ vértices, y tengo que recorrerlo dos veces. La complejidad de encontrar un camino aumentante es $O(m)$ porque uso BFS. Luego, como $n < m-2$, tengo que
 \[Compl(EK) = O(m) \times \# \text{caminos aumentantes} \]
-Entonces me basta probar que hay \(O(m \times n)\) caminos aumentantes. Para ello veré cuántas veces puede un lado volverse crítico, teniendo en cuenta que un lado se vuelve crítico en el paso k cuando para pasar al paso k+1 este se satura o vacía completamente. Esto lo hago porque por cada camino aumentante que encuentre, cuando aumente el flujo, voy a saturar o llenar al menos un lado en ese camino. Entonces si puedo acotar la cantidad de veces que un lado se vuelve crítico, habré acotado la cantidad de caminos aumentantes.
+Entonces me basta probar que hay \(O(m \times n)\) caminos aumentantes. Para ello veré cuántas veces puede un lado volverse crítico, teniendo en cuenta que un lado se vuelve crítico en el paso $k$ cuando para pasar al paso $k+1$ este se satura o vacía completamente. Esto lo hago porque por cada camino aumentante que encuentre, cuando aumente el flujo, voy a saturar o llenar al menos un lado en ese camino. Entonces si puedo acotar la cantidad de veces que un lado se vuelve crítico, habré acotado la cantidad de caminos aumentantes.
 Entonces veré los diferentes casos en donde se satura un lado.
 
-\subsection{El lado \(\overrightarrow{xz}\) se satura en el paso k}
+\subsection{El lado \(\overrightarrow{xz}\) se satura en el paso $k$}
 \label{sec:org1846a2a}
-Esto significa que para pasar de \(f_k\) a \(f_{k+1}\) usé un \(f_k\)-camino aumentante de la forma \(s \cdots x z \cdots t\). Como estoy corriendo EK, este camino es el de menor longitud entre s y t, lo que implica que también es el de menor longitud entre s y x y z, entonces
+Esto significa que para pasar de \(f_k\) a \(f_{k+1}\) usé un \(f_k\)-camino aumentante de la forma \(s \cdots x z \cdots t\). Como estoy corriendo EK, este camino es el de menor longitud entre $s$ y $t$, lo que implica que también es el de menor longitud entre $s$ y $x$ y $z$, entonces
 \[ d_k(z) = d_k(x) + 1 \]
-Ahora voy a ver qué pasa cuando \(\overrightarrow{xz}\) vuelve a hacerse crítico en un paso j. Esto puede ocurrir por dos razones:
+Ahora voy a ver qué pasa cuando \(\overrightarrow{xz}\) vuelve a hacerse crítico en un paso $j$. Esto puede ocurrir por dos razones:
 \begin{itemize}
-\item Si se usa backward en j y se vacía.
-\item Si en un paso i entre k y j se usa backward y se vacía un poco, para luego en j usarse forward y saturarse.
+\item Si se usa backward en $j$ y se vacía.
+\item Si en un paso $i$ entre $k$ y $j$ se usa backward y se vacía un poco, para luego en $j$ usarse forward y saturarse.
 \end{itemize}
-De todas formas, \(\exists i : k < i \le j\) tal que \(\overrightarrow{xz}\) se usa backward en el paso i. Esto significa que para pasar de \(f_i\) a \(f_{i+1}\) uso un \(f_i\)-camino aumentante de la forma \({s \cdots \overleftarrow{zx} \cdots t}\), y por la misma razón que antes tengo que
+De todas formas, \(\exists i : k < i \le j\) tal que \(\overrightarrow{xz}\) se usa backward en el paso $i$. Esto significa que para pasar de \(f_i\) a \(f_{i+1}\) uso un \(f_i\)-camino aumentante de la forma \({s \cdots \overleftarrow{zx} \cdots t}\), y por la misma razón que antes tengo que
 \[d_i(x) = d_i(z) + 1\]
 Juntando todo llego a
 \begin{align*}
@@ -62,16 +62,16 @@ d_j(t) & \ge d_i(t) \\
        & = d_k(t) + 2
 \end{align*}
 
-\subsection{El lado \(\overrightarrow{xz}\) se vacía en el paso k}
+\subsection{El lado \(\overrightarrow{xz}\) se vacía en el paso $k$}
 \label{sec:org9a4fa90}
-Esto significa que para pasar de \(f_k\) a \(f_{k+1}\) usé un \(f_k\)-camino aumentante de la forma \(s \cdots \overleftarrow{zx} \cdots t\). Como estoy corriendo EK, este camino es el de menor longitud entre s y t, lo que implica que 
+Esto significa que para pasar de \(f_k\) a \(f_{k+1}\) usé un \(f_k\)-camino aumentante de la forma \(s \cdots \overleftarrow{zx} \cdots t\). Como estoy corriendo EK, este camino es el de menor longitud entre $s$ y $t$, lo que implica que 
 \[ d_k(x) = d_k(z) + 1 \]
-Ahora voy a ver qué pasa cuando \(\overrightarrow{xz}\) vuelve a hacerse crítico en un paso j. Esto puede ocurrir por dos razones:
+Ahora voy a ver qué pasa cuando \(\overrightarrow{xz}\) vuelve a hacerse crítico en un paso $j$. Esto puede ocurrir por dos razones:
 \begin{itemize}
-\item Si se usa forward en j y se satura.
-\item Si en un paso i entre k y j se usa forward y se llena un poco, para luego en j usarse backward y vaciarse.
+\item Si se usa forward en $j$ y se satura.
+\item Si en un paso $i$ entre $k$ y $j$ se usa forward y se llena un poco, para luego en $j$ usarse backward y vaciarse.
 \end{itemize}
-De todas formas, \(\exists i : k < i \le j\) tal que \(\overrightarrow{xz}\) se usa forward en el paso i. Esto significa que para pasar de \(f_i\) a \(f_{i+1}\) uso un \(f_i\)-camino aumentante de la forma \({s \cdots x z \cdots t}\), y por la misma razón que antes tengo que
+De todas formas, \(\exists i : k < i \le j\) tal que \(\overrightarrow{xz}\) se usa forward en el paso $i$. Esto significa que para pasar de \(f_i\) a \(f_{i+1}\) uso un \(f_i\)-camino aumentante de la forma \({s \cdots x z \cdots t}\), y por la misma razón que antes tengo que
 \[d_i(z) = d_i(x) + 1\]
 Juntando todo llego a
 \begin{align*}
@@ -84,7 +84,7 @@ d_j(t) & \ge d_i(t) \\
 \end{align*}
 \subsection{Conclusión}
 \label{sec:org12b5f71}
-En ambos casos llego a que si un lado se satura, para que pueda volver a hacerlo la distancia entre s y t debe aumentar en a lo sumo 2. Y como esta distancia está siempre entre 1 y n-1, esto puede pasar a lo sumo n/2 = O(n) veces. Como es para cada lado, tengo que en toda la corrida de EK, un lado cualquiera se vuelve crítico \(O(n \times m)\) veces, lo que significa que tengo \(O(n \times m)\) caminos aumentantes.
+En ambos casos llego a que si un lado se satura, para que pueda volver a hacerlo la distancia entre $s$ y $t$ debe aumentar en a lo sumo $2$. Y como esta distancia está siempre entre $1$ y $n-1$, esto puede pasar a lo sumo $\frac{n}{2} = O(n)$ veces. Como es para cada lado, tengo que en toda la corrida de EK, un lado cualquiera se vuelve crítico \(O(n \times m)\) veces, lo que significa que tengo \(O(n \times m)\) caminos aumentantes.
 
 
 \section{Probar que \({d_k(x) \le d_{k+1}(x)}\)}
