@@ -11,7 +11,7 @@
 Para esta demostración usaré las definiciones y resultados de [[id:distancias][_este teorema_]].
 *La complejidad de EK es $O(n \times m^2)$*. EK encuentra un camino aumentante de s a t y aumenta el flujo a lo largo de este, esto lo hace hasta que no encuentra más caminos aumentantes. Por lo tanto, su complejidad viene dada por:
 \[(Compl(\text{\small aumentar flujo}) + Compl(\text{\small encontrar camino aumentante})) \times \# \text{\small caminos aumentantes} \]
-La complejidad de aumentar el flujo en un camino es O(n), pues el camino tiene a lo sumo n vértices, y tengo que recorrerlo dos veces. La complejidad de encontrar un camino aumentante es O(m) porque uso BFS. Luego, como n < m-2, tengo que
+La complejidad de aumentar el flujo en un camino es O(n), pues el camino tiene a lo sumo n vértices y tengo que recorrerlo dos veces. La complejidad de encontrar un camino aumentante es O(m) porque uso BFS. Luego, como ${n \le m}$ (en componentes conexas al menos):
 \[Compl(EK) = O(m) \times \# \text{caminos aumentantes} \]
 Entonces me basta probar que hay $O(m \times n)$ caminos aumentantes. Para ello veré cuántas veces puede un lado volverse crítico, teniendo en cuenta que un lado se vuelve crítico en el paso k cuando para pasar al paso k+1 este se satura o vacía completamente. Esto lo hago porque por cada camino aumentante que encuentre, cuando aumente el flujo, voy a saturar o llenar al menos un lado en ese camino. Entonces si puedo acotar la cantidad de veces que un lado se vuelve crítico, habré acotado la cantidad de caminos aumentantes.
 Entonces veré los diferentes casos en donde se satura un lado.

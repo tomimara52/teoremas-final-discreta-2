@@ -1,4 +1,4 @@
-% Created 2024-06-22 Sat 19:53
+% Created 2024-06-24 Mon 15:28
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -32,17 +32,17 @@
 
 
 \section{¿Cuál es la complejidad de Edmonds-Karp?}
-\label{sec:org1dfae82}
-Para esta demostración usaré las definiciones y resultados de \hyperref[sec:org15b93a6]{\uline{este teorema}}.
+\label{sec:orgcf5174a}
+Para esta demostración usaré las definiciones y resultados de \hyperref[sec:org7051fbf]{\uline{este teorema}}.
 \textbf{La complejidad de EK es \(O(n \times m^2)\)}. EK encuentra un camino aumentante de s a t y aumenta el flujo a lo largo de este, esto lo hace hasta que no encuentra más caminos aumentantes. Por lo tanto, su complejidad viene dada por:
 \[(Compl(\text{\small aumentar flujo}) + Compl(\text{\small encontrar camino aumentante})) \times \# \text{\small caminos aumentantes} \]
-La complejidad de aumentar el flujo en un camino es O(n), pues el camino tiene a lo sumo n vértices, y tengo que recorrerlo dos veces. La complejidad de encontrar un camino aumentante es O(m) porque uso BFS. Luego, como n < m-2, tengo que
+La complejidad de aumentar el flujo en un camino es O(n), pues el camino tiene a lo sumo n vértices y tengo que recorrerlo dos veces. La complejidad de encontrar un camino aumentante es O(m) porque uso BFS. Luego, como \({n \le m}\) (en componentes conexas al menos):
 \[Compl(EK) = O(m) \times \# \text{caminos aumentantes} \]
 Entonces me basta probar que hay \(O(m \times n)\) caminos aumentantes. Para ello veré cuántas veces puede un lado volverse crítico, teniendo en cuenta que un lado se vuelve crítico en el paso k cuando para pasar al paso k+1 este se satura o vacía completamente. Esto lo hago porque por cada camino aumentante que encuentre, cuando aumente el flujo, voy a saturar o llenar al menos un lado en ese camino. Entonces si puedo acotar la cantidad de veces que un lado se vuelve crítico, habré acotado la cantidad de caminos aumentantes.
 Entonces veré los diferentes casos en donde se satura un lado.
 
 \subsection{El lado \(\overrightarrow{xz}\) se satura en el paso k}
-\label{sec:org37af57c}
+\label{sec:org5c4b3bb}
 Esto significa que para pasar de \(f_k\) a \(f_{k+1}\) usé un \(f_k\)-camino aumentante de la forma \(s \cdots x z \cdots t\). Como estoy corriendo EK, este camino es el de menor longitud entre s y t, lo que implica que también es el de menor longitud entre s y x y z, entonces
 \[ d_k(z) = d_k(x) + 1 \]
 Ahora voy a ver qué pasa cuando \(\overrightarrow{xz}\) vuelve a hacerse crítico en un paso j. Esto puede ocurrir por dos razones:
@@ -63,7 +63,7 @@ d_j(t) & \ge d_i(t) \\
 \end{align*}
 
 \subsection{El lado \(\overrightarrow{xz}\) se vacía en el paso k}
-\label{sec:orgb640cf1}
+\label{sec:org076faec}
 Esto significa que para pasar de \(f_k\) a \(f_{k+1}\) usé un \(f_k\)-camino aumentante de la forma \(s \cdots \overleftarrow{zx} \cdots t\). Como estoy corriendo EK, este camino es el de menor longitud entre s y t, lo que implica que 
 \[ d_k(x) = d_k(z) + 1 \]
 Ahora voy a ver qué pasa cuando \(\overrightarrow{xz}\) vuelve a hacerse crítico en un paso j. Esto puede ocurrir por dos razones:
@@ -83,14 +83,14 @@ d_j(t) & \ge d_i(t) \\
        & = d_k(t) + 2
 \end{align*}
 \subsection{Conclusión}
-\label{sec:orgc4f64a6}
+\label{sec:org03c92be}
 En ambos casos llego a que si un lado se satura, para que pueda volver a hacerlo la distancia entre s y t debe aumentar en a lo sumo 2. Y como esta distancia está siempre entre 1 y n-1, esto puede pasar a lo sumo n/2 = O(n) veces. Como es para cada lado, tengo que en toda la corrida de EK, un lado cualquiera se vuelve crítico \(O(n \times m)\) veces, lo que significa que tengo \(O(n \times m)\) caminos aumentantes.
 
 
 \section{Probar que \({d_k(x) \le d_{k+1}(x)}\)}
-\label{sec:org15b93a6}
+\label{sec:org7051fbf}
 \subsection{Definiciones}
-\label{sec:orgcccc390}
+\label{sec:org5d76e39}
 Primero, recuerdo las definiciones. Para un flujo f y vértices x,z:
 \begin{align*}
 d_f(x, z) =
@@ -108,7 +108,7 @@ b_k(x) = d_{f_k}(x, t)
 Y además \({d_k(t) = d_k(x) + b_k(x)}\), si esos números son finitos.
 
 \subsection{Primera parte}
-\label{sec:org03c61e4}
+\label{sec:orgce9434c}
 Sea el conjunto \[ A = \{x \in V : d_{k+1}(x) < d_k(x)\}, \] si pruebo que este conjunto es vacío ya está.
 Sup. que A no es vacío, entonces tomo \({x \in A}\) tal que \({ d_{k+1}(x) = min\{d_{k+1}(y) : y \in A\}. }\)
 Además tengo que
@@ -124,7 +124,7 @@ Luego, como \({d_{k+1}(z) < d_{k+1}(x)}\) y x es el elemento de A con menor \(d_
 Juntando 0, 1 y 2 llego a \({d_k(z) < \infty}\), lo que significa que existe un \(f_k\)-camino aumentante de longitud mínima entre s y z de la forma \({p_k: s \cdots z}\).
 
 \subsection{Si \(\overrightarrow{zx}\) es un lado}
-\label{sec:org379ba88}
+\label{sec:orgbdf0e01}
 En principio podría agregar x al final de \(p_k\) para obtener un \(f_k\)-camino aumentante entre s y x. Pero si hago eso llego a
 \[ d_k(x) \le d_k(z)+1 \le d_{k+1}(z) + 1 = d_{k+1}(x), \]
 lo que es un absurdo porque x está en A. Este absurdo tiene que venir de que no puedo agregar x al camino, y esto tiene que ser porque \({f_k(\overrightarrow{zx}) = c(\overrightarrow{zx})}\). Pero en \(p_{k+1}\) está el lado \(\overrightarrow{zx}\), lo que significa que para pasar de \(f_k\) a \(f_{k+1}\) tuve que usarlo en modo backward. Es decir, existe un camino de longitud mínima (por usar E-K)
@@ -139,7 +139,7 @@ d_k(z) & = d_k(x) + 1 \\
 Absurdo pues 0 < 2.
 
 \subsection{Si \(\overrightarrow{xz}\) es un lado}
-\label{sec:orgf6b8de7}
+\label{sec:orgf6c2ebe}
 En principio podría agregar x al final de \(p_k\) para obtener un \(f_k\)-camino aumentante entre s y x. Pero si hago eso llego a
 \[ d_k(x) \le d_k(z)+1 \le d_{k+1}(z) + 1 = d_{k+1}(x), \]
 lo que es un absurdo porque x está en A. Este absurdo tiene que venir de que no puedo agregar x al camino, y esto tiene que ser porque \({f_k(\overrightarrow{zx}) = 0}\). Pero en \(p_{k+1}\) está el lado \(\overleftarrow{zx}\), lo que significa que para pasar de \(f_k\) a \(f_{k+1}\) tuve que usarlo en modo forward. Es decir, existe un camino de longitud mínima (por usar E-K)
@@ -154,15 +154,15 @@ d_k(z) & = d_k(x) + 1 \\
 Absurdo pues 0 < 2.
 
 \subsection{Conclusión}
-\label{sec:org592d20e}
+\label{sec:orgbd2653e}
 En ambos casos llego a un absurdo, y este absurdo viene de suponer que \({A \ne \emptyset}\), entonces A es vacío y finalmente \[ d_k(x) \le d_{k+1}(x) \]
 
 
 \section{¿Cuál es la complejidad de Dinic en ambas versiones? No hace falta probar que la distancia en NAs sucesivos aumenta}
-\label{sec:org2df5129}
+\label{sec:orga70f45b}
 Probaré que \(Compl(Dinic) = O(n^2 \times m)\).
 \subsection{Complejidad de NAs}
-\label{sec:orgd0084ff}
+\label{sec:org3a8f4ca}
 Como en cada NA la distancia entre s y t aumenta, tendré a lo sumo O(n) NAs. Además, como uso BFS, la complejidad de construir cada NA es O(m).
 Entonces tengo que
 \begin{align*}
@@ -172,7 +172,7 @@ Compl(Dinic) & = (Compl(\text{hallar flujo bloqueante}) + Compl(construir NA)) \
 Me basta probar que \(Compl(\text{hallar flujo bloqueante}) = O(n \times m)\).
 
 \subsection{Versión original}
-\label{sec:org38f5501}
+\label{sec:org3c0a70c}
 Los NAs en esta versión tienen la propiedad de que todo vértice tiene algún lado no saturado que va al siguiente nivel. Esto significa que DFS encuentra un camino de s a t sin tener que hacer backtracking. Entonces la complejidad de encontrar un camino en el NA es O(n° niveles) = O(n). Además, aumentar el flujo en un camino es O(n), pues hay que recorrer el camino dos veces. Ahora, como cada camino aumentante satura (al menos) un lado, tendré O(m) caminos aumentantes.
 Entonces por ahora tengo que la complejidad de encontrar los caminos y aumentar el flujo en ellos es \({O(n \times m)}\). Sin embargo, tengo que ver cuánto cuesta mantener la propiedad que mencioné al principio.
 
@@ -190,7 +190,7 @@ Finalmente, la complejidad de hallar flujo bloqueante es
 \[ O(n \times m) + O(n \times m) + O(m) = O(n \times m) \]
 
 \subsection{Versión occidental}
-\label{sec:org9c0feca}
+\label{sec:org1937223}
 Daré el algoritmo que se usa para encontrar un flujo bloqueante g:
 \begin{verbatim}
 g := 0
@@ -231,7 +231,7 @@ Finalmente:
 
 
 \section{¿Cuál es la complejidad del algoritmo de Wave? No hace falta probar que la distancia en NAs sucesivos aumenta}
-\label{sec:org3ed871c}
+\label{sec:org4963f6c}
 Probaré que \(Compl(Wave) = O(n^3)\).
 
 Al igual que en Dinic, como la distancia entre s y t aumenta en NAs sucesivos, tengo O(n) NAs, pues t no puede estar a una distancia mayor a n de s.
@@ -272,28 +272,28 @@ Cuando un vértice devuelve flujo a los vecinos, vacía todos los lados excepto 
 
 
 \section{Probar que el valor de todo flujo es menor o igual a la capacidad de todo corte. También que si f es flujo, es maximal si y solo si existe S corte con V(f) = Cap(S) y S es minimal. No hace falta probar que \(V(f) = f(S, \overline{S}) - f(\overline{S}, S)\)}
-\label{sec:org0db738b}
+\label{sec:orgf4a7f9b}
 \subsection{Valor de todo flujo menor o igual a capacidad de todo corte}
-\label{sec:orge6f1a1b}
+\label{sec:orgf41193c}
 \[
 f(\overline{S}, S) = \sum_{\substack{x \not\in S \\ y \in S \\ \overrightarrow{xy} \in E}} f(\overrightarrow{xy}) \ge 0 \text{ pues } f(\overrightarrow{xy}), \forall \overrightarrow{xy} \in E
 \]
 Entonces tengo \(V(f) = f(S, \overline{S}) - f(\overline{S}, S) \le f(S, \overline{S}) \le c(S, \overline{S}) = Cap(S)\)
 
 \subsection{\(\impliedby\) vuelta}
-\label{sec:org0e5a12f}
+\label{sec:orgc759ec1}
 Sea f flujo y S corte con \(V(f) = Cap(S)\). Para todo flujo g, por lo que probé arriba tengo \(V(g) \le Cap(S) = V(f) \implies\) f es maximal. Además, para todo corte T tengo \(Cap(T) \ge V(f) = Cap(S) \implies\) S es minimal.
 
 \subsection{\(\implies\) ida}
-\label{sec:orgd98d91e}
+\label{sec:orgac82b48}
 Sea f flujo maximal. Voy a construir un S y probaré que es un corte minimal con V(f) = Cap(S).
 \[ S = \{s\} \cup \{x \colon \text{existe f-camino aumentante de s a x}\} \]
 \subsubsection*{S es corte}
-\label{sec:orgdb03b7f}
+\label{sec:org29e23f9}
 Sup. que no lo es. La única forma que pase esto es porque \(t \not\in S\), pues \(s \in S\). Pero esto significa que existe un f-camino aumentante de s a t, por lo que puedo aumentar f en ese camino. Absurdo porque f es maximal, luego S es corte.
 
 \subsubsection*{V(f) = Cap(S)}
-\label{sec:org14e144f}
+\label{sec:orgfc6a711}
 Sean \(x \in S, y \not\in S, \overrightarrow{xy} \in E\).
 \[ x \in S \implies \text{ existe f-camino aumentante de s a x} \]
 \[ y \not\in S \implies \text{ no existe f-camino aumentante de s a y} \]
@@ -311,22 +311,22 @@ Finalmente: \(V(f) = f(S, \overline{S}) - f(\overline{S}, S) = Cap(S) - 0 = Cap(
 
 
 \section{Probar que si G es un grafo conexo no regular entonces \(\chi(G) \le \Delta(G)\)}
-\label{sec:org1cb432d}
+\label{sec:org67a1faf}
 Sea \(x\) tal que \(d(x) = \delta(G)\). Corro BFS empezando por \(x\) y guardo el orden inverso en que los vértices se visitaron. Ahora voy a correr greedy en este orden que acabo de guardar. Notar que en BFS todo vértice es incluido por un vértice que ya ha sido visitado, entonces en el orden inverso todo vértice tiene al menos un vecino por delante (excepto el x). Esto significa que para cada vértice \(y\), en el peor caso va a tener \(d(y)-1 < \Delta\) vecinos coloreados todos con un color distinto, entonces voy a poder elegir un color en \(\{1,\cdots, \Delta\}\). Finalmente, cuando llego a x, como \(d(x)=\delta<\Delta\), podré elegir algún color de \(\{1,\cdots, \Delta\}\) que no está usado por ningún vecino de x para colorearlo. De esta forma tengo un coloreo propio de G que usa (a lo sumo) \(\Delta\) colores, entonces \(\chi(G) \le \Delta(G)\).
 
 
 
 \section{Probar que 2-COLOR es polinomial}
-\label{sec:org89b399c}
+\label{sec:org397269a}
 Para ello voy a dar un algoritmo polinomial que colorea un grafo con dos colores. Luego probaré que si el coloreo que da mi algoritmo no es propio es porque en el grafo hay algún ciclo impar, lo que implicaría \(\chi(G) \ge 3\). Notar que voy a asumir que el grafo es conexo, sin embargo si no lo es, simplemente hay que correr el algoritmo en todas sus componentes conexas y ver que todas sean bipartitas.
 
 \subsection{Algoritmo}
-\label{sec:org0753a74}
+\label{sec:orgecc5aec}
 Agarro un vértice x de G y corro BFS empezando en él. Luego a cada vértice y le asigno el color \(Nivel_{BFS}(y) \text{ mod 2}\). Esto es lo mismo que pintar a x del color 1, y luego cada vez que un vértice z agrega a un vértice y en BFS, asigno \(c(y) = 1 - c(z)\). Es claro que esta parte es O(m) por usar BFS.
 
 Ahora tengo que revisar que el coloreo sea en efecto propio, lo que cuesta \({\displaystyle\sum_{x \in V} O(d(x)) = O(m)}\). Entonces llego a que mi algoritmo es polinomial.
 \subsection{¿Qué pasa cuando el coloreo que di no es propio?}
-\label{sec:org9a7aa1a}
+\label{sec:org57acadc}
 Eso significa que \(\exists u,v \in V : c(u) = c(v) \land uv \in E\). Entonces
 \begin{align*}
 Nivel_{BFS}(u) \text{ mod 2} = Nivel_{BFS}(v) \text{ mod 2} \\
@@ -347,17 +347,17 @@ lados, que es un número impar por (1).
 
 
 \section{Enunciar y probar el teorema de Hall}
-\label{sec:org48602dc}
+\label{sec:org49e5672}
 El teorema de Hall dice que en un grafo bipartito con partes X e Y, existe un matching completo de X a Y si y solo si \({|\Gamma(S)| \ge |S|, \forall S \subseteq X}\). Notar que un matching M de X a Y es completo si |E(M)| = |X|.
 
 \subsection{\(\implies\) ida}
-\label{sec:org2295504}
+\label{sec:orgd170c68}
 Sea M un matching completo de X a Y. Este me induce una función inyectiva \[f: X \rightarrow Y\] tal que \[f(x) \in \Gamma(x).\] Luego, como f es inyectiva, tengo que \[|f(S)| = |S|, \forall S \subseteq X.\]
 Y además \[f(S) \subseteq \Gamma(S).\]
 Finalmente, tengo que \(|S| \le |\Gamma(S)|, \forall S \subseteq X\).
 
 \subsection{\(\impliedby\) vuelta}
-\label{sec:org5d68a05}
+\label{sec:org0546ac6}
 Sup. que se cumple \({|\Gamma(S)| \ge |S|, \forall S \subseteq X}\) (condición de Hall), pero que al correr el algoritmo de encontrar matching maximal llego a un M con \({|E(M)| < |X|.}\)
 Trabajaré sobre la forma matricial del algoritmo.
 Sean
@@ -409,7 +409,7 @@ Finalmente, construí un \(S \subseteq X\) tal que no se cumple la condición de
 
 
 \section{Enunciar y probar el teorema del matrimonio de Koenig}
-\label{sec:org55f6d7f}
+\label{sec:org1941703}
 Este teorema dice que todo grafo bipartito regular tiene un matchig perfecto. Un matching es perfecto si es completo en ambos sentidos.
 
 Defino
@@ -436,14 +436,14 @@ Así, por teorema de Hall, sé que hay matching completo de X a Y. Pero la elecc
 
 
 \section{Enunciar y probar el teorema de la cota de Hamming}
-\label{sec:org6d6c0ee}
+\label{sec:org89545a3}
 
 \subsection{Teorema}
-\label{sec:org0d4a251}
+\label{sec:orgbc1268e}
 Para todo código \(C \in \{0, 1\}^n\) con \(t = \lfloor \frac{\delta-1}{2} \rfloor\):
                     \[ |C| \le \frac{2^n}{1 + n + \binom{n}{2} + \cdots + \binom{n}{t}} \]
 \subsection{Demostración}
-\label{sec:org6be7766}
+\label{sec:orgfb5a722}
 Sea
           \[ A = \bigcup_{v \in C} D_t(v) \]
 buscaré \(|A|\).
@@ -477,11 +477,11 @@ Juntando todo tengo:
 
 
 \section{Probar que si \({C = Nu(H)}\), entonces \({\delta(C)}\) = tamaño del mínimo conjunto de columnas de H que es LD}
-\label{sec:orgbfc1eaa}
+\label{sec:orgdee90ed}
 Sean \({m = \min\{j : \exists \text{ conjunto LD de j columnas de H}\}}\) y \({\delta = \delta(C).}\)
 
 \subsection{\(m \le \delta\)}
-\label{sec:org96ce18f}
+\label{sec:org08b0ee6}
 Como C es lineal,
       \[ \delta = \min\{|x| : x \in C \land x \ne 0  \} \]
 Sea \(x\) tal que \({|x| = \delta.}\) \({\exists i_1, \cdots i_{\delta} }\) tales que \(x\) tiene un 1 en esas posiciones y un 0 en las demás. Entonces tengo que
@@ -500,7 +500,7 @@ Luego,
 Entonces, como existe un subconjunto de \(\delta\) columnas que es LD, \({m \le \delta.}\)
 
 \subsection{\({\delta \le m}\)}
-\label{sec:org31b14cd}
+\label{sec:org0d5f01f}
 Por como definí \(m\), sé que hay un conjunto de \(m\) columnas que es LD. Sean \({H^{(j_1)}, \cdots, H^{(j_m)}}\) esas columnas. Luego, sea \({x = e_{j_1} + \cdots + e_{j_m}.}\)
 \begin{align*}
 	H \cdot x^T & = H \cdot (e_{j_1} + \cdots + e_{j_m})^T \\
@@ -514,7 +514,7 @@ Entonces \({ x \in Nu(H) = C, }\) y como \({x \ne 0,}\) tengo que \({\delta \le 
 
 
 \section{Sea un código C de longitud n, dimensión k y polinomio generador g(x), probar que:}
-\label{sec:org4c2e6e8}
+\label{sec:orge6eb762}
 \begin{enumerate}
 \item \({C = \{p(x) : gr(p) < n \land g(x) | p(x) \} = C_1}\)
 \item \({C = \{v(x) \odot g(x) : v(x) \text{ es un polinomio cualquiera} \} = C_2}\)
@@ -523,18 +523,18 @@ Entonces \({ x \in Nu(H) = C, }\) y como \({x \ne 0,}\) tengo que \({\delta \le 
 \end{enumerate}
 
 \subsection{1 y 2}
-\label{sec:org6770b55}
+\label{sec:orgc140bc5}
 Para probar esto, probaré que \({ C_1 \subseteq C_2 \subseteq C \subseteq C_1. }\)
 
 \subsubsection*{\underline{\(C_1 \subseteq C_2\)}}
-\label{sec:org9153b83}
+\label{sec:org169f985}
 Sea \(p(x) \in C_1\), entonces existe \(q(x)\) tal que \({p(x) = g(x) \cdot q(x).}\) Además
       \[ n > gr(p) = gr(g(x) \cdot q(x)) \]
 Entonces es claro que
       \[ p(x) = g(x) \cdot q(x) = g(x) \odot q(x) \in C_2 \]
 
 \subsubsection*{\underline{\(C_2 \subseteq C\)}}
-\label{sec:org557d899}
+\label{sec:orge9e2fb0}
 Sea \({ p(x) = v(x) \odot g(x) \in C_2, }\) con \(v(x)\) un polinomio cualquiera de la forma
       \[ v(x) = v_0 + v_1 \cdot x + v_2 \cdot x^2 + \cdots + v_{gr(v)} \cdot x^{gr(v)} \]
 Entonces:
@@ -548,7 +548,7 @@ p(x) & = v(x) \odot g(x) \\
 Pues todas las rotaciones de \(g(x)\) están en \(C\).
 
 \subsubsection*{\underline{\(C \subseteq C_1\)}}
-\label{sec:orgf76c33e}
+\label{sec:orgf962c7c}
 Sea \(p(x) \in C,\) es claro que \({gr(p) < n,}\) falta ver que \({g(x) | p(x). }\) Entonces voy a dividir \(p\) por \(g\):
       \[ \exists q(x),r(x) : p(x) = g(x) \cdot q(x) + r(x) \land gr(r) < gr(g) \]
 
@@ -566,7 +566,7 @@ Y como \(p \in C\) y \({g(x) \odot q(x) \in C_2 \subseteq C,}\) entonces \({ r \
 Finalmente, como \(g(x) | p(x)\), \({p(x) \in C_1.}\)
 
 \subsection{3}
-\label{sec:orgad62bc1}
+\label{sec:org0ceb78a}
 Sea \(p(x) \in C\), entonces existe \(q(x)\) tal que \({ p(x) = g(x) \cdot q(x) .}\) Además \({n > gr(p) = gr(g) + gr(q) }\), entonces \({ gr(q) < n - gr(g) .}\)
 Ahora, sea un \(q(x)\) tal que \(gr(q) < n - gr(g)\), tengo que \({ g(x) \cdot q(x) \in C. }\)
 
@@ -582,7 +582,7 @@ Es decir, hay una biyección entre \(C\) y el conjunto de polinomios de grado me
 \end{align*}
 
 \subsection{4}
-\label{sec:orgb6aa5f0}
+\label{sec:org6fe2cff}
 Divido \(1+x^n\) por \(g(x)\):
       \[ \exists q(x), r(x) : 1 + x^n = g(x) \cdot q(x) + r(x) \land gr(r) < gr(g) \]
 Ahora, si tomo módulo:
