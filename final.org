@@ -511,3 +511,70 @@ r(x) & = g(x) \odot q(x) \in C
 \end{align*}
 Pero como $g$, es el polinomio de $C$ no nulo de menor grado y ${gr(r) < gr(g),}$ entonces ${r(x) = 0}$ y ${g(x) | (1 + x^n).}$
 
+
+* Probar que 3SAT es NP-completo
+Como sé que SAT es NP-completo, probaré que SAT \(\le_P\) 3SAT. Primero tengo que dar un algoritmo polinomial que transforme instancias de SAT en instancias de 3SAT.
+
+** El algoritmo
+Sea $B$ una expresión booleana con variables ${ x_1, \cdots, x_i }$ tal que
+      \[ B = D_1 \land \cdots \land D_m \]
+Donde cada $D_j$ es una disjunción de literales ${l_{j1}, \cdots, l_{jr_j}.}$ Entonces voy a transformar a cada $D_j$ en un $E_j$ que será una conjunción de disjunciones de 3 literales:
+*** _Si $r_j = 1$_:
+Introduzco las variables $y_{j1}, y_{j2}$:
+    \[E_j = (l_{j1} \lor y_{j1} \lor y_{j2}) \land (l_{j1} \lor \overline{y_{j1}} \lor y_{j2}) \land (l_{j1} \lor y_{j1} \lor \overline{y_{j2}}) \land (l_{j1} \lor \overline{y_{j1}} \lor \overline{y_{j2}}) \]
+
+*** _Si $r_j = 2$_:
+Introduzco $y_j$:
+      \[E_j = (l_{j1} \lor l_{j2} \lor y_j) \land (l_{j1} \lor l_{j2} \lor \overline{y_j}) \]
+
+*** _Si $r_j = 3$_:
+Entonces es claro que $E_j = D_j$.
+
+*** _Si $r_j \ge 4$_:
+Voy a introducir las variables ${ y_{j1}, \cdots, y_{j(r_j - 3)}$:
+\begin{align*}
+	E_j & = (l_{j1} \lor l_{j2} \lor y_{j1}) \\
+      & \land (\overline{y_{j1}} \lor y_{j2} \lor l_{j3}) \\
+      & \land (\overline{y_{j2}} \lor y_{j3} \lor l_{j4}) \\
+      & \land \cdots \\
+      & \land (\overline{y_{j(r_j-4)}} \lor y_{j(r_j-3)} \lor l_{j(r_j-2)}) \\
+      & \land (\overline{y_{j(r_j-3)}} \lor l_{j(r_j-1)} \lor l_{jr_j}) 
+\end{align*}
+
+Es claro que este algoritmo es polinomial, porque si B tiene k literales, agrego a lo sumo k literales más (en realidad es menos que esto).
+
+** Los D son satisfacibles sii los E lo son
+Ahora que puedo transformar mi problema SAT en 3SAT, falta ver que mi B original es satisfacible si y solo si el nuevo lo es. Y como B es una conjunción de disjunciones, esto es lo mismo que ver que cada $D_j$ es satisfacible $\iff$ $E_j$ lo es. Esto es lo mismo que ver que
+      \[ D_j(\overrightarrow{b}) = 1 \iff \exists \overrightarrow{d} : E_j(\overrightarrow{b}, \overrightarrow{d}) = 1 \]
+donde $\overrightarrow{b}$ es el vector de asignación de las variables $x$, mientras que $\overrightarrow{d}$ es el de las $y$.
+
+Es trivial ver que esto se cumple para los $D_j$ donde $r_j \le 3$. Me quedan los otros casos.
+
+*** _$\implies$ ida_
+Sup. que $D_j$ es satisfacible. Es decir, existe un vector de bits $\overrightarrow{b}$ tal que $D_j(\overrightarrow{b}) = 1$. Como $D_j$ es una disjunción, hay un $l_{jk}$ tal que ${l_{jk}(\overrightarrow{b}) = 1.}$ Tomo tal $l_{jk}$ que cumpla eso (si hay más de uno, tomo el primero) y defino $\overrightarrow{d}$:
+      \[ d_1, \cdots, d_{k-2} = 1 \quad\text{y} \quad d_{k-1}, \cdots, d_{r_j - 3} = 0 \]
+
+Ahora si evalúo E:
+\begin{align*}
+	E_j(\overrightarrow{b}, \overrightarrow{d}) & = (l_{j1} \lor l_{j2} \lor y_{j1})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } d_1 = 1)\\
+      & \land (\overline{y_{j1}} \lor y_{j2} \lor l_{j3})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } d_2 = 1) \\
+      & \land \cdots \\
+      & \land (\overline{y_{j(k-3)}} \lor y_{j(k-2)} \lor l_{j(k-1)})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } d_{k-2} = 1) \\
+      & \land (\overline{y_{j(k-2)}} \lor y_{j(k-1)} \lor l_{jk})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } l_{jk}(\overrightarrow{b}) = 1) \\
+      & \land (\overline{y_{j(k-1)}} \lor y_{jk} \lor l_{j(k+1)})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } d_{j(k-1)} = 0) \\
+      & \land \cdots \\
+      & \land (\overline{y_{j(r_j-3)}} \lor l_{j(r_j-1)} \lor l_{jr_j})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } d_{j(r_j-3)} = 0) \\
+      & = 1
+\end{align*}
+
+
+*** _$\impliedby$ vuelta_
+Sup. que tengo  $\overrightarrow{b}$ y $\overrightarrow{d}$ tales que $E_j(\overrightarrow{b}, \overrightarrow{d}) = 1$.  Ahora sup. que $D_j(\overrightarrow{b}) = 0$. Esto implica que todas las $l_{jq}$ se evalúan a 0 con $\overrightarrow{b}$, y como $E_j(\overrightarrow{b}, \overrightarrow{d}) = 1$ esto implica que 
+\begin{align*}
+	1 & = (y_{j1} \\
+    & \land (\overline{y_{j1}} \lor y_{j2}) \\
+    & \cdots \\
+    & \land (\overline{y_{j(r_j-4)}} \lor y_{j(r_j-3)}) \\
+    & \land \overline{y_{j(r_j-3)}}) (\overrightarrow{d})
+\end{align*}
+lo cual es claramente un absurdo. Luego, $D_j(\overrightarrow{b}) = 1$.
