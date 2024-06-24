@@ -561,9 +561,9 @@ Ahora si evalúo $E_j$, teniendo en cuenta que ${y_{ji}(\overrightarrow{d}) = d_
       & \land \cdots \\
       & \land (\overline{y_{j(k-3)}} \lor y_{j(k-2)} \lor l_{j(k-1)})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } d_{k-2} = 1) \\
       & \land (\overline{y_{j(k-2)}} \lor y_{j(k-1)} \lor l_{jk})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } l_{jk}(\overrightarrow{b}) = 1) \\
-      & \land (\overline{y_{j(k-1)}} \lor y_{jk} \lor l_{j(k+1)})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } d_{j(k-1)} = 0) \\
+      & \land (\overline{y_{j(k-1)}} \lor y_{jk} \lor l_{j(k+1)})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } d_{k-1} = 0) \\
       & \land \cdots \\
-      & \land (\overline{y_{j(r_j-3)}} \lor l_{j(r_j-1)} \lor l_{jr_j})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } d_{j(r_j-3)} = 0) \\
+      & \land (\overline{y_{j(r_j-3)}} \lor l_{j(r_j-1)} \lor l_{jr_j})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } d_{r_j-3} = 0) \\
       & = 1
 \end{align*}
 
