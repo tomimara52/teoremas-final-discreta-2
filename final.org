@@ -554,7 +554,7 @@ Es trivial ver que esto se cumple para los $D_j$ donde $r_j \le 3$. Me quedan lo
 Sup. que $D_j$ es satisfacible. Es decir, existe un vector de bits $\overrightarrow{b}$ tal que $D_j(\overrightarrow{b}) = 1$. Como $D_j$ es una disjunción, hay un $l_{jk}$ tal que ${l_{jk}(\overrightarrow{b}) = 1.}$ Tomo tal $l_{jk}$ que cumpla eso (si hay más de uno, tomo el primero) y defino $\overrightarrow{d}$:
       \[ d_1, \cdots, d_{k-2} = 1 \quad\text{y} \quad d_{k-1}, \cdots, d_{r_j - 3} = 0 \]
 
-Ahora si evalúo E:
+Ahora si evalúo $E_j$, teniendo en cuenta que ${y_{ji}(\overrightarrow{d}) = d_i}$ y ${\overline{y_{ji}(\overrightarrow{d})} = 1 - d_i}$:
 \begin{align*}
 	E_j(\overrightarrow{b}, \overrightarrow{d}) & = (l_{j1} \lor l_{j2} \lor y_{j1})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } d_1 = 1)\\
       & \land (\overline{y_{j1}} \lor y_{j2} \lor l_{j3})(\overrightarrow{b}, \overrightarrow{d}) \quad("=1" \text{ pues } d_2 = 1) \\
