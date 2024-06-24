@@ -52,7 +52,7 @@ d_j(t) & \ge d_i(t) \\
        & = d_k(t) + 2
 \end{align*}
 ** Conclusión
-En ambos casos llego a que si un lado se satura, para que pueda volver a hacerlo la distancia entre s y t debe aumentar en a lo sumo 2. Y como esta distancia está siempre entre 1 y n-1, esto puede pasar a lo sumo n/2 = O(n) veces. Como es para cada lado, tengo que en toda la corrida de EK, un lado cualquiera se vuelve crítico $O(n \times m)$ veces, lo que significa que tengo $O(n \times m)$ caminos aumentantes.
+En ambos casos llego a que si un lado se vuelve crítico, para que pueda volver a hacerlo la distancia entre s y t debe aumentar en a lo sumo 2. Y como esta distancia está siempre entre 1 y n-1, esto puede pasar a lo sumo n/2 = O(n) veces. Como es para cada lado, tengo que en toda la corrida de EK, un lado cualquiera se vuelve crítico $O(n \times m)$ veces, lo que significa que tengo $O(n \times m)$ caminos aumentantes.
 
 
 * Probar que ${d_k(x) \le d_{k+1}(x)}$
@@ -510,3 +510,4 @@ Ahora, si tomo módulo:
 r(x) & = g(x) \odot q(x) \in C
 \end{align*}
 Pero como $g$, es el polinomio de $C$ no nulo de menor grado y ${gr(r) < gr(g),}$ entonces ${r(x) = 0}$ y ${g(x) | (1 + x^n).}$
+
