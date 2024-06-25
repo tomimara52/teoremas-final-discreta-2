@@ -226,7 +226,7 @@ Cuando un vértice devuelve flujo a los vecinos, vacía todos los lados excepto 
 * Probar que el valor de todo flujo es menor o igual a la capacidad de todo corte. También que si f es flujo, es maximal si y solo si existe S corte con V(f) = Cap(S) y S es minimal. No hace falta probar que $V(f) = f(S, \overline{S}) - f(\overline{S}, S)$
 ** Valor de todo flujo menor o igual a capacidad de todo corte
 \[
-f(\overline{S}, S) = \sum_{\substack{x \not\in S \\ y \in S \\ \overrightarrow{xy} \in E}} f(\overrightarrow{xy}) \ge 0 \text{ pues } f(\overrightarrow{xy}), \forall \overrightarrow{xy} \in E
+f(\overline{S}, S) = \sum_{\substack{x \not\in S \\ y \in S \\ \overrightarrow{xy} \in E}} f(\overrightarrow{xy}) \ge 0 \text{ pues } f(\overrightarrow{xy}) \ge 0, \forall \overrightarrow{xy} \in E
 \]
 Entonces tengo $V(f) = f(S, \overline{S}) - f(\overline{S}, S) \le f(S, \overline{S}) \le c(S, \overline{S}) = Cap(S)$
 
