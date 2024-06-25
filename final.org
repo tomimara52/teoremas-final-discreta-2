@@ -578,3 +578,140 @@ Sup. que tengo  $\overrightarrow{b}$ y $\overrightarrow{d}$ tales que $E_j(\over
     & \land \overline{y_{j(r_j-3)}}) (\overrightarrow{d})
 \end{align*}
 lo cual es claramente un absurdo. Luego, $D_j(\overrightarrow{b}) = 1$.
+
+
+* Probar que 3COLOR es NP-completo
+Para ello probaré que 3SAT \(\le\) 3COLOR.
+
+** Algoritmo
+Voy a crear un grafo G a partir de una expresión booleana ${B = D_1 \land \cdots \land D_m}$ con variables $x_1, \cdots, x_i$, donde $D_j = l_{j1} \lor l_{j2} \lor l_{j3}$.
+
+*** Vértices
+\begin{align*}
+V(G) = & \{u_1, \cdots, u_i, w_1, \cdots, w_i\} \\
+     \cup & \{a_{j1}, a_{j2}, a_{j3}\}_{j=1,\cdots,m} \\
+     \cup & \{e_{j1}, e_{j2}, e_{j3}\}_{j=1,\cdots,m} \\
+     \cup & \{CAPI, t\}
+\end{align*}
+
+*** Lados
+
+**** _Triángulos_
+\[ \{u_it, tw_i, w_iu_i\}_{i=1,\cdots,n} \]
+
+**** _Garras_
+\[ \{a_{j1}a_{j2}, a_{j2}a_{j3}, a_{j3}a_{j1}\}_{j=1,\cdots,m} \cup \{a_{j1}e_{j1}, a_{j2}e_{j2}, a_{j3}e_{j3}\}_{j=1,\cdots,m} \]
+
+**** _Lados_
+\[\{(CAPI)e_{jr}\}_\substack{j=1,\cdots,m & r=1,2,3} \]
+
+**** _Lados_
+\[ \{(CAPI)t\}\]
+
+**** _Lados_
+
+Para estos voy a definir
+\begin{align*}
+v(l_{jr}) =
+  \begin{cases}
+    u_q & \text{si } \exists q : l_{jr} = x_q \\
+    w_q & \text{si } \exists q : l_{jr} = \overline{x_q}
+  \end{cases}
+\end{align*}
+Y luego los lados serán
+\[ \{e_{jr}(v(l_{jr}))\}_\substack{j=1,\cdots,m & r=1,2,3} \]
+
+
+** B satisfacible sii \(\chi(G) \le 3\)
+*** _\(\impliedby\) vuelta_
+Sup. $\chi(G) \le 3$, como en G hay triángulos entonces $\chi(G) = 3$. Sea C un coloreo propio de G que usa 3 colores, como $(CAPI)t$ es un lado, tengo que los colores posibles son ${\{C(CAPI), C(t), Z\}}$.
+Ahora defino el vector de bits $\overrightarrow{b}$:
+\begin{align*}
+b_i = 
+\begin{cases}
+  1 & \quad\text{si } C(u_i) = C(CAPI) \\
+  0 & \quad\text{si } C(u_i) \ne C(CAPI)
+\end{cases}	
+\end{align*}
+
+Para probar que \(B(\overrightarrow{b})\) tengo que ver que ${\forall j, \exists r : l_{jr}(\overrightarrow{b}) = 1.}$ Sea ${j \in \{1,\cdots,m\}}$. Como los $a_{jr}$ forman un triángulo, hay un $r$ tal que $C(a_{jr}) = C(t)$.
+\begin{align*}
+	e_{jr}a_{jr} \in E(G) & \implies C(e_{jr}) \ne C(a_{jr}) = C(t) \\
+	e_{jr}(CAPI) \in E(G) & \implies C(e_{jr}) \ne C(CAPI)
+\end{align*}
+
+Lo que implica que \(C(e_{jr}) = Z\). Ahora
+\begin{align*}
+	e_{jr}v(l_{jr}) \in E(G) & \implies C(v(l_{jr})) \ne C(e_{jr}) = Z \\
+	tv(l_{jr}) \in E(G) & \implies C(v(l_{jr})) \ne C(t)
+\end{align*}
+
+Entonces tengo que $C(v(l_{jr})) = C(CAPI)$.
+
+- _Si $v(l_{jr})$ es una variable_
+
+Existe k tal que $l_{jr} = x_k$. Entonces $v(l_{jr}) = u_k$, y por lo tanto $C(u_k) = C(CAPI)$. Por cómo definí $\overrightarrow{b}$, tengo que $b_k = 1$, entonces
+      \[ l_{jr}(\overrightarrow{b}) = x_k(\overrightarrow{b}) = b_k = 1 \]
+
+- _Si $v(l_{jr})$ es una negación de variable_
+
+Existe k tal que $l_{jr} = \overline{x_k}$. Entonces $v(l_{jr}) = w_k$, y por lo tanto $C(w_k) = C(CAPI)$. Como $u_kw_k$ es un lado, tengo que $C(u_k) \ne C(CAPI)$, entonces $b_k = 0$. Finalmente
+      \[ l_{jr}(\overrightarrow{b}) = \overline{x_k(\overrightarrow{b})} = 1 - b_k = 1 \]
+
+Finalmente, como para cualquier j existe un r tal que $l_{jr}(\overrightarrow{b}) = 1$, tengo que $B(\overrightarrow{b}) = 1$.
+
+*** _\(\implies\) ida_
+Sup. que $B(\overrightarrow{b})=1$, voy a dar un coloreo C con 3 colores y probaré que es propio en G. Primero, defino que ${C(CAPI) = ROJO}$ y ${C(t) = VERDE}$, por lo que es claro que no hay problema con el lado $t(CAPI)$. Para los $u$ y los $w$ defino:
+\begin{align*}
+	C(u_i) = \begin{cases}
+  	ROJO & \quad\text{si } b_i = 1 \\
+  	NEGRO & \quad\text{si } b_i = 0 \\
+  \end{cases}
+  \quad
+	C(w_i) = \begin{cases}
+  	NEGRO & \quad\text{si } b_i = 1 \\
+  	ROJO & \quad\text{si } b_i = 0 \\
+  \end{cases}
+\end{align*}
+
+Entonces los triángulos formados por $u_i, w_i, t$ no tienen problema ya que están pintados de (NEGRO, ROJO, VERDE) en algún orden.
+
+Ahora tengo que ver cómo pintar los $a$. Como $B(\overrightarrow{b}) = 1$, sé que
+      \[ \forall j, \exists k_j : l_{jk_j}(\overrightarrow{b})=1 \]
+Entonces tomo ese $k_j$ para cada $j$ (si hay más de uno, tomo el más chico). Luego, para cada $j \in \{1, \cdots, m\}$ defino:
+      \[ C(a_{jk_j}) = VERDE \quad\text{y pinto los otros dos uno de ROJO y otro de NEGRO}\]
+De esta forma, los triángulos de \(a\) no tienen problema.
+
+Ahora, para pintar los \(e\):
+      \[ C(e_{jk_j}) = NEGRO \quad C(e_{jr}) = VERDE \text{ para } r \ne k_j \]
+
+Falta ver que los lados con \(e\) no tengan problema.
+- \(e_{jk_j}a_{jk_j}\)
+
+      No genera problema pues ${C(e_{jk_j}) = NEGRO \ne VERDE = C(a_{jk_j})}$
+
+- \(e_{jr}a_{jr}\) con $r \ne k_j$
+
+      No hay problema pues ${C(e_{jr}) = VERDE}$ y ${C(a_{jr}) = ROJO \text{ o } NEGRO}$
+
+- \(e_{jr}CAPI\)
+
+      No hay problema pues \(C(e_{jr}) = NEGRO \text{ o } VERDE\) y ${C(CAPI) = ROJO}$
+
+- \(e_{jr}v(l_{jr})\) con $r \ne k_j$
+
+      No hay problema pues ${C(e_{jr}) = VERDE}$ y ${C(v(l_{jr})) = ROJO \text{ o } NEGRO}$ porque ${v(l_{jr}) = u_i \text{ o } w_i}$ para algún i
+
+- \(e_{jk_j}v(l_{jk_j})\)
+
+  - Si $l_{jk_j}$ es una variable
+
+      Entonces existe q tal que ${l_{jk_j} = x_q}$. Entonces
+            \[1 = l_{jk_j}(\overrightarrow{b}) = x_q(\overrightarrow{b}) = b_q \]
+      Por lo que ${C(v(l_{jk_j})) = C(u_q) = ROJO}$, entonces no hay problema.
+
+  - Si $l_{jk_j}$ es una negación de una variable
+
+      Entonces existe q tal que ${l_{jk_j} = \overline{x_q}}$. Entonces
+            \[1 = l_{jk_j}(\overrightarrow{b}) = \overline{x_q}(\overrightarrow{b}) = 1 - b_q \implies b_q = 0 \]
+      Por lo que ${C(v(l_{jk_j})) = C(w_q) = ROJO}$, entonces no hay problema.

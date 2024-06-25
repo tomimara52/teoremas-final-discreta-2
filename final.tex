@@ -1,4 +1,4 @@
-% Created 2024-06-24 Mon 17:29
+% Created 2024-06-24 Mon 22:57
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -32,8 +32,8 @@
 
 
 \section{¿Cuál es la complejidad de Edmonds-Karp?}
-\label{sec:org50daaac}
-Para esta demostración usaré las definiciones y resultados de \hyperref[sec:org9b8652e]{\uline{este teorema}}.
+\label{sec:orgabe4385}
+Para esta demostración usaré las definiciones y resultados de \hyperref[sec:org00f8b40]{\uline{este teorema}}.
 \textbf{La complejidad de EK es \(O(n \times m^2)\)}. EK encuentra un camino aumentante de s a t y aumenta el flujo a lo largo de este, esto lo hace hasta que no encuentra más caminos aumentantes. Por lo tanto, su complejidad viene dada por:
 \[(Compl(\text{\small aumentar flujo}) + Compl(\text{\small encontrar camino aumentante})) \times \# \text{\small caminos aumentantes} \]
 La complejidad de aumentar el flujo en un camino es O(n), pues el camino tiene a lo sumo n vértices y tengo que recorrerlo dos veces. La complejidad de encontrar un camino aumentante es O(m) porque uso BFS. Luego, como \({n \le m}\) (en componentes conexas al menos):
@@ -42,7 +42,7 @@ Entonces me basta probar que hay \(O(m \times n)\) caminos aumentantes. Para ell
 Entonces veré los diferentes casos en donde se satura un lado.
 
 \subsection{El lado \(\overrightarrow{xz}\) se satura en el paso k}
-\label{sec:orgf5c37ce}
+\label{sec:org8b28747}
 Esto significa que para pasar de \(f_k\) a \(f_{k+1}\) usé un \(f_k\)-camino aumentante de la forma \(s \cdots x z \cdots t\). Como estoy corriendo EK, este camino es el de menor longitud entre s y t, lo que implica que también es el de menor longitud entre s y x y z, entonces
 \[ d_k(z) = d_k(x) + 1 \]
 Ahora voy a ver qué pasa cuando \(\overrightarrow{xz}\) vuelve a hacerse crítico en un paso j. Esto puede ocurrir por dos razones:
@@ -63,7 +63,7 @@ d_j(t) & \ge d_i(t) \\
 \end{align*}
 
 \subsection{El lado \(\overrightarrow{xz}\) se vacía en el paso k}
-\label{sec:org07ffe0d}
+\label{sec:org4365459}
 Esto significa que para pasar de \(f_k\) a \(f_{k+1}\) usé un \(f_k\)-camino aumentante de la forma \(s \cdots \overleftarrow{zx} \cdots t\). Como estoy corriendo EK, este camino es el de menor longitud entre s y t, lo que implica que 
 \[ d_k(x) = d_k(z) + 1 \]
 Ahora voy a ver qué pasa cuando \(\overrightarrow{xz}\) vuelve a hacerse crítico en un paso j. Esto puede ocurrir por dos razones:
@@ -83,14 +83,14 @@ d_j(t) & \ge d_i(t) \\
        & = d_k(t) + 2
 \end{align*}
 \subsection{Conclusión}
-\label{sec:org09eb600}
+\label{sec:org6a491a2}
 En ambos casos llego a que si un lado se vuelve crítico, para que pueda volver a hacerlo la distancia entre s y t debe aumentar en al menos 2. Y como esta distancia está siempre entre 1 y n-1, esto puede pasar a lo sumo n/2 = O(n) veces. Como es para cada lado, tengo que en toda la corrida de EK, un lado cualquiera se vuelve crítico \(O(n \times m)\) veces, lo que significa que tengo \(O(n \times m)\) caminos aumentantes.
 
 
 \section{Probar que \({d_k(x) \le d_{k+1}(x)}\)}
-\label{sec:org9b8652e}
+\label{sec:org00f8b40}
 \subsection{Definiciones}
-\label{sec:orgabed1d5}
+\label{sec:org34bf5d0}
 Primero, recuerdo las definiciones. Para un flujo f y vértices x,z:
 \begin{align*}
 d_f(x, z) =
@@ -108,7 +108,7 @@ b_k(x) = d_{f_k}(x, t)
 Y además \({d_k(t) = d_k(x) + b_k(x)}\), si esos números son finitos.
 
 \subsection{Primera parte}
-\label{sec:orgab38a87}
+\label{sec:org1014b14}
 Sea el conjunto \[ A = \{x \in V : d_{k+1}(x) < d_k(x)\}, \] si pruebo que este conjunto es vacío ya está.
 Sup. que A no es vacío, entonces tomo \({x \in A}\) tal que \({ d_{k+1}(x) = min\{d_{k+1}(y) : y \in A\}. }\)
 Además tengo que
@@ -124,7 +124,7 @@ Luego, como \({d_{k+1}(z) < d_{k+1}(x)}\) y x es el elemento de A con menor \(d_
 Juntando 0, 1 y 2 llego a \({d_k(z) < \infty}\), lo que significa que existe un \(f_k\)-camino aumentante de longitud mínima entre s y z de la forma \({p_k: s \cdots z}\).
 
 \subsection{Si \(\overrightarrow{zx}\) es un lado}
-\label{sec:org4152b80}
+\label{sec:orgc7ea9e1}
 En principio podría agregar x al final de \(p_k\) para obtener un \(f_k\)-camino aumentante entre s y x. Pero si hago eso llego a
 \[ d_k(x) \le d_k(z)+1 \le d_{k+1}(z) + 1 = d_{k+1}(x), \]
 lo que es un absurdo porque x está en A. Este absurdo tiene que venir de que no puedo agregar x al camino, y esto tiene que ser porque \({f_k(\overrightarrow{zx}) = c(\overrightarrow{zx})}\). Pero en \(p_{k+1}\) está el lado \(\overrightarrow{zx}\), lo que significa que para pasar de \(f_k\) a \(f_{k+1}\) tuve que usarlo en modo backward. Es decir, existe un camino de longitud mínima (por usar E-K)
@@ -139,7 +139,7 @@ d_k(z) & = d_k(x) + 1 \\
 Absurdo pues 0 < 2.
 
 \subsection{Si \(\overrightarrow{xz}\) es un lado}
-\label{sec:orgaacde34}
+\label{sec:org5017033}
 En principio podría agregar x al final de \(p_k\) para obtener un \(f_k\)-camino aumentante entre s y x. Pero si hago eso llego a
 \[ d_k(x) \le d_k(z)+1 \le d_{k+1}(z) + 1 = d_{k+1}(x), \]
 lo que es un absurdo porque x está en A. Este absurdo tiene que venir de que no puedo agregar x al camino, y esto tiene que ser porque \({f_k(\overrightarrow{zx}) = 0}\). Pero en \(p_{k+1}\) está el lado \(\overleftarrow{zx}\), lo que significa que para pasar de \(f_k\) a \(f_{k+1}\) tuve que usarlo en modo forward. Es decir, existe un camino de longitud mínima (por usar E-K)
@@ -154,15 +154,15 @@ d_k(z) & = d_k(x) + 1 \\
 Absurdo pues 0 < 2.
 
 \subsection{Conclusión}
-\label{sec:org90e352b}
+\label{sec:org0e10a81}
 En ambos casos llego a un absurdo, y este absurdo viene de suponer que \({A \ne \emptyset}\), entonces A es vacío y finalmente \[ d_k(x) \le d_{k+1}(x) \]
 
 
 \section{¿Cuál es la complejidad de Dinic en ambas versiones? No hace falta probar que la distancia en NAs sucesivos aumenta}
-\label{sec:org35f1d58}
+\label{sec:org113f36a}
 Probaré que \(Compl(Dinic) = O(n^2 \times m)\).
 \subsection{Complejidad de NAs}
-\label{sec:org666b25c}
+\label{sec:org90adac9}
 Como en cada NA la distancia entre s y t aumenta, tendré a lo sumo O(n) NAs. Además, como uso BFS, la complejidad de construir cada NA es O(m).
 Entonces tengo que
 \begin{align*}
@@ -172,7 +172,7 @@ Compl(Dinic) & = (Compl(\text{hallar flujo bloqueante}) + Compl(construir NA)) \
 Me basta probar que \(Compl(\text{hallar flujo bloqueante}) = O(n \times m)\).
 
 \subsection{Versión original}
-\label{sec:orgff02091}
+\label{sec:org008c303}
 Los NAs en esta versión tienen la propiedad de que todo vértice tiene algún lado no saturado que va al siguiente nivel. Esto significa que DFS encuentra un camino de s a t sin tener que hacer backtracking. Entonces la complejidad de encontrar un camino en el NA es O(n° niveles) = O(n). Además, aumentar el flujo en un camino es O(n), pues hay que recorrer el camino dos veces. Ahora, como cada camino aumentante satura (al menos) un lado, tendré O(m) caminos aumentantes.
 Entonces por ahora tengo que la complejidad de encontrar los caminos y aumentar el flujo en ellos es \({O(n \times m)}\). Sin embargo, tengo que ver cuánto cuesta mantener la propiedad que mencioné al principio.
 
@@ -190,7 +190,7 @@ Finalmente, la complejidad de hallar flujo bloqueante es
 \[ O(n \times m) + O(n \times m) + O(m) = O(n \times m) \]
 
 \subsection{Versión occidental}
-\label{sec:org1634233}
+\label{sec:org08593b1}
 Daré el algoritmo que se usa para encontrar un flujo bloqueante g:
 \begin{verbatim}
 g := 0
@@ -231,7 +231,7 @@ Finalmente:
 
 
 \section{¿Cuál es la complejidad del algoritmo de Wave? No hace falta probar que la distancia en NAs sucesivos aumenta}
-\label{sec:org3b09a16}
+\label{sec:orgf4fc869}
 Probaré que \(Compl(Wave) = O(n^3)\).
 
 Al igual que en Dinic, como la distancia entre s y t aumenta en NAs sucesivos, tengo O(n) NAs, pues t no puede estar a una distancia mayor a n de s.
@@ -272,28 +272,28 @@ Cuando un vértice devuelve flujo a los vecinos, vacía todos los lados excepto 
 
 
 \section{Probar que el valor de todo flujo es menor o igual a la capacidad de todo corte. También que si f es flujo, es maximal si y solo si existe S corte con V(f) = Cap(S) y S es minimal. No hace falta probar que \(V(f) = f(S, \overline{S}) - f(\overline{S}, S)\)}
-\label{sec:org52e240a}
+\label{sec:orgd08b8d8}
 \subsection{Valor de todo flujo menor o igual a capacidad de todo corte}
-\label{sec:org25b6545}
+\label{sec:orgd84daaa}
 \[
 f(\overline{S}, S) = \sum_{\substack{x \not\in S \\ y \in S \\ \overrightarrow{xy} \in E}} f(\overrightarrow{xy}) \ge 0 \text{ pues } f(\overrightarrow{xy}), \forall \overrightarrow{xy} \in E
 \]
 Entonces tengo \(V(f) = f(S, \overline{S}) - f(\overline{S}, S) \le f(S, \overline{S}) \le c(S, \overline{S}) = Cap(S)\)
 
 \subsection{\(\impliedby\) vuelta}
-\label{sec:org3e9a59f}
+\label{sec:org604344b}
 Sea f flujo y S corte con \(V(f) = Cap(S)\). Para todo flujo g, por lo que probé arriba tengo \(V(g) \le Cap(S) = V(f) \implies\) f es maximal. Además, para todo corte T tengo \(Cap(T) \ge V(f) = Cap(S) \implies\) S es minimal.
 
 \subsection{\(\implies\) ida}
-\label{sec:org7f1481d}
+\label{sec:org58373df}
 Sea f flujo maximal. Voy a construir un S y probaré que es un corte minimal con V(f) = Cap(S).
 \[ S = \{s\} \cup \{x \colon \text{existe f-camino aumentante de s a x}\} \]
 \subsubsection*{S es corte}
-\label{sec:org21a3563}
+\label{sec:org3eca123}
 Sup. que no lo es. La única forma que pase esto es porque \(t \not\in S\), pues \(s \in S\). Pero esto significa que existe un f-camino aumentante de s a t, por lo que puedo aumentar f en ese camino. Absurdo porque f es maximal, luego S es corte.
 
 \subsubsection*{V(f) = Cap(S)}
-\label{sec:orgdf9226f}
+\label{sec:org02fb3ab}
 Sean \(x \in S, y \not\in S, \overrightarrow{xy} \in E\).
 \[ x \in S \implies \text{ existe f-camino aumentante de s a x} \]
 \[ y \not\in S \implies \text{ no existe f-camino aumentante de s a y} \]
@@ -311,22 +311,22 @@ Finalmente: \(V(f) = f(S, \overline{S}) - f(\overline{S}, S) = Cap(S) - 0 = Cap(
 
 
 \section{Probar que si G es un grafo conexo no regular entonces \(\chi(G) \le \Delta(G)\)}
-\label{sec:orgde02088}
+\label{sec:org066a0a2}
 Sea \(x\) tal que \(d(x) = \delta(G)\). Corro BFS empezando por \(x\) y guardo el orden inverso en que los vértices se visitaron. Ahora voy a correr greedy en este orden que acabo de guardar. Notar que en BFS todo vértice es incluido por un vértice que ya ha sido visitado, entonces en el orden inverso todo vértice tiene al menos un vecino por delante (excepto el x). Esto significa que para cada vértice \(y\), en el peor caso va a tener \(d(y)-1 < \Delta\) vecinos coloreados todos con un color distinto, entonces voy a poder elegir un color en \(\{1,\cdots, \Delta\}\). Finalmente, cuando llego a x, como \(d(x)=\delta<\Delta\), podré elegir algún color de \(\{1,\cdots, \Delta\}\) que no está usado por ningún vecino de x para colorearlo. De esta forma tengo un coloreo propio de G que usa (a lo sumo) \(\Delta\) colores, entonces \(\chi(G) \le \Delta(G)\).
 
 
 
 \section{Probar que 2-COLOR es polinomial}
-\label{sec:orgf11869c}
+\label{sec:org669c102}
 Para ello voy a dar un algoritmo polinomial que colorea un grafo con dos colores. Luego probaré que si el coloreo que da mi algoritmo no es propio es porque en el grafo hay algún ciclo impar, lo que implicaría \(\chi(G) \ge 3\). Notar que voy a asumir que el grafo es conexo, sin embargo si no lo es, simplemente hay que correr el algoritmo en todas sus componentes conexas y ver que todas sean bipartitas.
 
 \subsection{Algoritmo}
-\label{sec:org5fdcbc5}
+\label{sec:org47e13e9}
 Agarro un vértice x de G y corro BFS empezando en él. Luego a cada vértice y le asigno el color \(Nivel_{BFS}(y) \text{ mod 2}\). Esto es lo mismo que pintar a x del color 1, y luego cada vez que un vértice z agrega a un vértice y en BFS, asigno \(c(y) = 1 - c(z)\). Es claro que esta parte es O(m) por usar BFS.
 
 Ahora tengo que revisar que el coloreo sea en efecto propio, lo que cuesta \({\displaystyle\sum_{x \in V} O(d(x)) = O(m)}\). Entonces llego a que mi algoritmo es polinomial.
 \subsection{¿Qué pasa cuando el coloreo que di no es propio?}
-\label{sec:orgeecf61f}
+\label{sec:org8e9d7c9}
 Eso significa que \(\exists u,v \in V : c(u) = c(v) \land uv \in E\). Entonces
 \begin{align*}
 Nivel_{BFS}(u) \text{ mod 2} = Nivel_{BFS}(v) \text{ mod 2} \\
@@ -347,17 +347,17 @@ lados, que es un número impar por (1).
 
 
 \section{Enunciar y probar el teorema de Hall}
-\label{sec:org72820ae}
+\label{sec:org77a481f}
 El teorema de Hall dice que en un grafo bipartito con partes X e Y, existe un matching completo de X a Y si y solo si \({|\Gamma(S)| \ge |S|, \forall S \subseteq X}\). Notar que un matching M de X a Y es completo si |E(M)| = |X|.
 
 \subsection{\(\implies\) ida}
-\label{sec:org0cf8492}
+\label{sec:org5433bac}
 Sea M un matching completo de X a Y. Este me induce una función inyectiva \[f: X \rightarrow Y\] tal que \[f(x) \in \Gamma(x).\] Luego, como f es inyectiva, tengo que \[|f(S)| = |S|, \forall S \subseteq X.\]
 Y además \[f(S) \subseteq \Gamma(S).\]
 Finalmente, tengo que \(|S| \le |\Gamma(S)|, \forall S \subseteq X\).
 
 \subsection{\(\impliedby\) vuelta}
-\label{sec:orgd2b130c}
+\label{sec:org43c0218}
 Sup. que se cumple \({|\Gamma(S)| \ge |S|, \forall S \subseteq X}\) (condición de Hall), pero que al correr el algoritmo de encontrar matching maximal llego a un M con \({|E(M)| < |X|.}\)
 Trabajaré sobre la forma matricial del algoritmo.
 Sean
@@ -409,7 +409,7 @@ Finalmente, construí un \(S \subseteq X\) tal que no se cumple la condición de
 
 
 \section{Enunciar y probar el teorema del matrimonio de Koenig}
-\label{sec:orge249746}
+\label{sec:org0125aed}
 Este teorema dice que todo grafo bipartito regular tiene un matchig perfecto. Un matching es perfecto si es completo en ambos sentidos.
 
 Defino
@@ -436,14 +436,14 @@ Así, por teorema de Hall, sé que hay matching completo de X a Y. Pero la elecc
 
 
 \section{Enunciar y probar el teorema de la cota de Hamming}
-\label{sec:orgb9c9c39}
+\label{sec:orgebb274d}
 
 \subsection{Teorema}
-\label{sec:orge288edc}
+\label{sec:org306ccc1}
 Para todo código \(C \in \{0, 1\}^n\) con \(t = \lfloor \frac{\delta-1}{2} \rfloor\):
                     \[ |C| \le \frac{2^n}{1 + n + \binom{n}{2} + \cdots + \binom{n}{t}} \]
 \subsection{Demostración}
-\label{sec:org631d3bb}
+\label{sec:orgd57dc6c}
 Sea
           \[ A = \bigcup_{v \in C} D_t(v) \]
 buscaré \(|A|\).
@@ -477,11 +477,11 @@ Juntando todo tengo:
 
 
 \section{Probar que si \({C = Nu(H)}\), entonces \({\delta(C)}\) = tamaño del mínimo conjunto de columnas de H que es LD}
-\label{sec:org4ca705b}
+\label{sec:orgf96b66e}
 Sean \({m = \min\{j : \exists \text{ conjunto LD de j columnas de H}\}}\) y \({\delta = \delta(C).}\)
 
 \subsection{\(m \le \delta\)}
-\label{sec:org9033de4}
+\label{sec:org683a5fa}
 Como C es lineal,
       \[ \delta = \min\{|x| : x \in C \land x \ne 0  \} \]
 Sea \(x\) tal que \({|x| = \delta.}\) \({\exists i_1, \cdots i_{\delta} }\) tales que \(x\) tiene un 1 en esas posiciones y un 0 en las demás. Entonces tengo que
@@ -500,7 +500,7 @@ Luego,
 Entonces, como existe un subconjunto de \(\delta\) columnas que es LD, \({m \le \delta.}\)
 
 \subsection{\({\delta \le m}\)}
-\label{sec:orgf7148e6}
+\label{sec:orgd03e1e3}
 Por como definí \(m\), sé que hay un conjunto de \(m\) columnas que es LD. Sean \({H^{(j_1)}, \cdots, H^{(j_m)}}\) esas columnas. Luego, sea \({x = e_{j_1} + \cdots + e_{j_m}.}\)
 \begin{align*}
 	H \cdot x^T & = H \cdot (e_{j_1} + \cdots + e_{j_m})^T \\
@@ -514,7 +514,7 @@ Entonces \({ x \in Nu(H) = C, }\) y como \({x \ne 0,}\) tengo que \({\delta \le 
 
 
 \section{Sea un código C de longitud n, dimensión k y polinomio generador g(x), probar que:}
-\label{sec:org4bee31f}
+\label{sec:orga391775}
 \begin{enumerate}
 \item \({C = \{p(x) : gr(p) < n \land g(x) | p(x) \} = C_1}\)
 \item \({C = \{v(x) \odot g(x) : v(x) \text{ es un polinomio cualquiera} \} = C_2}\)
@@ -523,18 +523,18 @@ Entonces \({ x \in Nu(H) = C, }\) y como \({x \ne 0,}\) tengo que \({\delta \le 
 \end{enumerate}
 
 \subsection{1 y 2}
-\label{sec:orgf9b9038}
+\label{sec:orgce53616}
 Para probar esto, probaré que \({ C_1 \subseteq C_2 \subseteq C \subseteq C_1. }\)
 
 \subsubsection*{\underline{\(C_1 \subseteq C_2\)}}
-\label{sec:org2ae5a49}
+\label{sec:org174017b}
 Sea \(p(x) \in C_1\), entonces existe \(q(x)\) tal que \({p(x) = g(x) \cdot q(x).}\) Además
       \[ n > gr(p) = gr(g(x) \cdot q(x)) \]
 Entonces es claro que
       \[ p(x) = g(x) \cdot q(x) = g(x) \odot q(x) \in C_2 \]
 
 \subsubsection*{\underline{\(C_2 \subseteq C\)}}
-\label{sec:orga40b9f9}
+\label{sec:org2ce2bd4}
 Sea \({ p(x) = v(x) \odot g(x) \in C_2, }\) con \(v(x)\) un polinomio cualquiera de la forma
       \[ v(x) = v_0 + v_1 \cdot x + v_2 \cdot x^2 + \cdots + v_{gr(v)} \cdot x^{gr(v)} \]
 Entonces:
@@ -548,7 +548,7 @@ p(x) & = v(x) \odot g(x) \\
 Pues todas las rotaciones de \(g(x)\) están en \(C\).
 
 \subsubsection*{\underline{\(C \subseteq C_1\)}}
-\label{sec:org9925269}
+\label{sec:org28c284a}
 Sea \(p(x) \in C,\) es claro que \({gr(p) < n,}\) falta ver que \({g(x) | p(x). }\) Entonces voy a dividir \(p\) por \(g\):
       \[ \exists q(x),r(x) : p(x) = g(x) \cdot q(x) + r(x) \land gr(r) < gr(g) \]
 
@@ -566,7 +566,7 @@ Y como \(p \in C\) y \({g(x) \odot q(x) \in C_2 \subseteq C,}\) entonces \({ r \
 Finalmente, como \(g(x) | p(x)\), \({p(x) \in C_1.}\)
 
 \subsection{3}
-\label{sec:orgba38742}
+\label{sec:orgf2b0bf2}
 Sea \(p(x) \in C\), entonces existe \(q(x)\) tal que \({ p(x) = g(x) \cdot q(x) .}\) Además \({n > gr(p) = gr(g) + gr(q) }\), entonces \({ gr(q) < n - gr(g) .}\)
 Ahora, sea un \(q(x)\) tal que \(gr(q) < n - gr(g)\), tengo que \({ g(x) \cdot q(x) \in C. }\)
 
@@ -582,7 +582,7 @@ Es decir, hay una biyección entre \(C\) y el conjunto de polinomios de grado me
 \end{align*}
 
 \subsection{4}
-\label{sec:orgd3d9f7f}
+\label{sec:org1ac4b39}
 Divido \(1+x^n\) por \(g(x)\):
       \[ \exists q(x), r(x) : 1 + x^n = g(x) \cdot q(x) + r(x) \land gr(r) < gr(g) \]
 Ahora, si tomo módulo:
@@ -598,30 +598,30 @@ Pero como \(g\), es el polinomio de \(C\) no nulo de menor grado y \({gr(r) < gr
 
 
 \section{Probar que 3SAT es NP-completo}
-\label{sec:orgf577b07}
+\label{sec:orgc386f69}
 Como sé que SAT es NP-completo, probaré que SAT \(\le_P\) 3SAT. Primero tengo que dar un algoritmo polinomial que transforme instancias de SAT en instancias de 3SAT.
 
 \subsection{El algoritmo}
-\label{sec:orgac7e0b0}
+\label{sec:org4311a96}
 Sea \(B\) una expresión booleana con variables \({ x_1, \cdots, x_i }\) tal que
       \[ B = D_1 \land \cdots \land D_m \]
 Donde cada \(D_j\) es una disjunción de literales \({l_{j1}, \cdots, l_{jr_j}.}\) Entonces voy a transformar a cada \(D_j\) en un \(E_j\) que será una conjunción de disjunciones de 3 literales:
 \subsubsection*{\underline{Si \(r_j = 1\)}:}
-\label{sec:org2799295}
+\label{sec:org3682d9d}
 Introduzco las variables \(y_{j1}, y_{j2}\):
     \[E_j = (l_{j1} \lor y_{j1} \lor y_{j2}) \land (l_{j1} \lor \overline{y_{j1}} \lor y_{j2}) \land (l_{j1} \lor y_{j1} \lor \overline{y_{j2}}) \land (l_{j1} \lor \overline{y_{j1}} \lor \overline{y_{j2}}) \]
 
 \subsubsection*{\underline{Si \(r_j = 2\)}:}
-\label{sec:orgd7d5b1c}
+\label{sec:org8a059bf}
 Introduzco \(y_j\):
       \[E_j = (l_{j1} \lor l_{j2} \lor y_j) \land (l_{j1} \lor l_{j2} \lor \overline{y_j}) \]
 
 \subsubsection*{\underline{Si \(r_j = 3\)}:}
-\label{sec:org9b1d3a1}
+\label{sec:org51f3434}
 Entonces es claro que \(E_j = D_j\).
 
 \subsubsection*{\underline{Si \(r_j \ge 4\)}:}
-\label{sec:org221653f}
+\label{sec:org4f38faf}
 Voy a introducir las variables \({ y_{j1}, \cdots, y_{j(r_j - 3)}\):
 \begin{align*}
 	E_j & = (l_{j1} \lor l_{j2} \lor y_{j1}) \\
@@ -635,7 +635,7 @@ Voy a introducir las variables \({ y_{j1}, \cdots, y_{j(r_j - 3)}\):
 Es claro que este algoritmo es polinomial, porque si B tiene k literales, agrego a lo sumo k literales más (en realidad es menos que esto).
 
 \subsection{Los D son satisfacibles sii los E lo son}
-\label{sec:orga107e54}
+\label{sec:org7194c8f}
 Ahora que puedo transformar mi problema SAT en 3SAT, falta ver que mi B original es satisfacible si y solo si el nuevo lo es. Y como B es una conjunción de disjunciones, esto es lo mismo que ver que cada \(D_j\) es satisfacible \(\iff\) \(E_j\) lo es. Esto es lo mismo que ver que
       \[ D_j(\overrightarrow{b}) = 1 \iff \exists \overrightarrow{d} : E_j(\overrightarrow{b}, \overrightarrow{d}) = 1 \]
 donde \(\overrightarrow{b}\) es el vector de asignación de las variables \(x\), mientras que \(\overrightarrow{d}\) es el de las \(y\).
@@ -643,7 +643,7 @@ donde \(\overrightarrow{b}\) es el vector de asignación de las variables \(x\),
 Es trivial ver que esto se cumple para los \(D_j\) donde \(r_j \le 3\). Me quedan los otros casos.
 
 \subsubsection*{\underline{\(\implies\) ida}}
-\label{sec:org72b92ca}
+\label{sec:orgf76d058}
 Sup. que \(D_j\) es satisfacible. Es decir, existe un vector de bits \(\overrightarrow{b}\) tal que \(D_j(\overrightarrow{b}) = 1\). Como \(D_j\) es una disjunción, hay un \(l_{jk}\) tal que \({l_{jk}(\overrightarrow{b}) = 1.}\) Tomo tal \(l_{jk}\) que cumpla eso (si hay más de uno, tomo el primero) y defino \(\overrightarrow{d}\):
       \[ d_1, \cdots, d_{k-2} = 1 \quad\text{y} \quad d_{k-1}, \cdots, d_{r_j - 3} = 0 \]
 
@@ -662,7 +662,7 @@ Ahora si evalúo \(E_j\), teniendo en cuenta que \({y_{ji}(\overrightarrow{d}) =
 
 
 \subsubsection*{\underline{\(\impliedby\) vuelta}}
-\label{sec:org5a46827}
+\label{sec:org57a2840}
 Sup. que tengo  \(\overrightarrow{b}\) y \(\overrightarrow{d}\) tales que \(E_j(\overrightarrow{b}, \overrightarrow{d}) = 1\).  Ahora sup. que \(D_j(\overrightarrow{b}) = 0\). Esto implica que todas las \(l_{jq}\) se evalúan a 0 con \(\overrightarrow{b}\), y como \(E_j(\overrightarrow{b}, \overrightarrow{d}) = 1\) esto implica que 
 \begin{align*}
 	1 & = (y_{j1} \\
@@ -672,4 +672,163 @@ Sup. que tengo  \(\overrightarrow{b}\) y \(\overrightarrow{d}\) tales que \(E_j(
     & \land \overline{y_{j(r_j-3)}}) (\overrightarrow{d})
 \end{align*}
 lo cual es claramente un absurdo. Luego, \(D_j(\overrightarrow{b}) = 1\).
+
+
+\section{Probar que 3COLOR es NP-completo}
+\label{sec:org5f79f08}
+Para ello probaré que 3SAT \(\le\) 3COLOR.
+
+\subsection{Algoritmo}
+\label{sec:org6d8ec60}
+Voy a crear un grafo G a partir de una expresión booleana \({B = D_1 \land \cdots \land D_m}\) con variables \(x_1, \cdots, x_i\), donde \(D_j = l_{j1} \lor l_{j2} \lor l_{j3}\).
+
+\subsubsection*{Vértices}
+\label{sec:org36f9c6e}
+\begin{align*}
+V(G) = & \{u_1, \cdots, u_i, w_1, \cdots, w_i\} \\
+     \cup & \{a_{j1}, a_{j2}, a_{j3}\}_{j=1,\cdots,m} \\
+     \cup & \{e_{j1}, e_{j2}, e_{j3}\}_{j=1,\cdots,m} \\
+     \cup & \{CAPI, t\}
+\end{align*}
+
+\subsubsection*{Lados}
+\label{sec:orgb38eeef}
+
+\begin{itemize}
+\item \underline{Triángulos}
+\label{sec:orge77fad7}
+\[ \{u_it, tw_i, w_iu_i\}_{i=1,\cdots,n} \]
+
+\item \underline{Garras}
+\label{sec:orgddec4fa}
+\[ \{a_{j1}a_{j2}, a_{j2}a_{j3}, a_{j3}a_{j1}\}_{j=1,\cdots,m} \cup \{a_{j1}e_{j1}, a_{j2}e_{j2}, a_{j3}e_{j3}\}_{j=1,\cdots,m} \]
+
+\item \underline{Lados}
+\label{sec:orgac41ad5}
+\[\{(CAPI)e_{jr}\}_\substack{j=1,\cdots,m & r=1,2,3} \]
+
+\item \underline{Lados}
+\label{sec:orgd10ba54}
+\[ \{(CAPI)t\}\]
+
+\item \underline{Lados}
+\label{sec:orgc4186a9}
+
+Para estos voy a definir
+\begin{align*}
+v(l_{jr}) =
+  \begin{cases}
+    u_q & \text{si } \exists q : l_{jr} = x_q \\
+    w_q & \text{si } \exists q : l_{jr} = \overline{x_q}
+  \end{cases}
+\end{align*}
+Y luego los lados serán
+\[ \{e_{jr}(v(l_{jr}))\}_\substack{j=1,\cdots,m & r=1,2,3} \]
+\end{itemize}
+
+
+\subsection{B satisfacible sii \(\chi(G) \le 3\)}
+\label{sec:orgbbac065}
+\subsubsection*{\underline{\(\impliedby\) vuelta}}
+\label{sec:orga83879b}
+Sup. \(\chi(G) \le 3\), como en G hay triángulos entonces \(\chi(G) = 3\). Sea C un coloreo propio de G que usa 3 colores, como \((CAPI)t\) es un lado, tengo que los colores posibles son \({\{C(CAPI), C(t), Z\}}\).
+Ahora defino el vector de bits \(\overrightarrow{b}\):
+\begin{align*}
+b_i = 
+\begin{cases}
+  1 & \quad\text{si } C(u_i) = C(CAPI) \\
+  0 & \quad\text{si } C(u_i) \ne C(CAPI)
+\end{cases}	
+\end{align*}
+
+Para probar que \(B(\overrightarrow{b})\) tengo que ver que \({\forall j, \exists r : l_{jr}(\overrightarrow{b}) = 1.}\) Sea \({j \in \{1,\cdots,m\}}\). Como los \(a_{jr}\) forman un triángulo, hay un \(r\) tal que \(C(a_{jr}) = C(t)\).
+\begin{align*}
+	e_{jr}a_{jr} \in E(G) & \implies C(e_{jr}) \ne C(a_{jr}) = C(t) \\
+	e_{jr}(CAPI) \in E(G) & \implies C(e_{jr}) \ne C(CAPI)
+\end{align*}
+
+Lo que implica que \(C(e_{jr}) = Z\). Ahora
+\begin{align*}
+	e_{jr}v(l_{jr}) \in E(G) & \implies C(v(l_{jr})) \ne C(e_{jr}) = Z \\
+	tv(l_{jr}) \in E(G) & \implies C(v(l_{jr})) \ne C(t)
+\end{align*}
+
+Entonces tengo que \(C(v(l_{jr})) = C(CAPI)\).
+
+\begin{itemize}
+\item \uline{Si \(v(l_{jr})\) es una variable}
+\end{itemize}
+
+Existe k tal que \(l_{jr} = x_k\). Entonces \(v(l_{jr}) = u_k\), y por lo tanto \(C(u_k) = C(CAPI)\). Por cómo definí \(\overrightarrow{b}\), tengo que \(b_k = 1\), entonces
+      \[ l_{jr}(\overrightarrow{b}) = x_k(\overrightarrow{b}) = b_k = 1 \]
+
+\begin{itemize}
+\item \uline{Si \(v(l_{jr})\) es una negación de variable}
+\end{itemize}
+
+Existe k tal que \(l_{jr} = \overline{x_k}\). Entonces \(v(l_{jr}) = w_k\), y por lo tanto \(C(w_k) = C(CAPI)\). Como \(u_kw_k\) es un lado, tengo que \(C(u_k) \ne C(CAPI)\), entonces \(b_k = 0\). Finalmente
+      \[ l_{jr}(\overrightarrow{b}) = \overline{x_k(\overrightarrow{b})} = 1 - b_k = 1 \]
+
+Finalmente, como para cualquier j existe un r tal que \(l_{jr}(\overrightarrow{b}) = 1\), tengo que \(B(\overrightarrow{b}) = 1\).
+
+\subsubsection*{\underline{\(\implies\) ida}}
+\label{sec:org74507b1}
+Sup. que \(B(\overrightarrow{b})=1\), voy a dar un coloreo C con 3 colores y probaré que es propio en G. Primero, defino que \({C(CAPI) = ROJO}\) y \({C(t) = VERDE}\), por lo que es claro que no hay problema con el lado \(t(CAPI)\). Para los \(u\) y los \(w\) defino:
+\begin{align*}
+	C(u_i) = \begin{cases}
+  	ROJO & \quad\text{si } b_i = 1 \\
+  	NEGRO & \quad\text{si } b_i = 0 \\
+  \end{cases}
+  \quad
+	C(w_i) = \begin{cases}
+  	NEGRO & \quad\text{si } b_i = 1 \\
+  	ROJO & \quad\text{si } b_i = 0 \\
+  \end{cases}
+\end{align*}
+
+Entonces los triángulos formados por \(u_i, w_i, t\) no tienen problema ya que están pintados de (NEGRO, ROJO, VERDE) en algún orden.
+
+Ahora tengo que ver cómo pintar los \(a\). Como \(B(\overrightarrow{b}) = 1\), sé que
+      \[ \forall j, \exists k_j : l_{jk_j}(\overrightarrow{b})=1 \]
+Entonces tomo ese \(k_j\) para cada \(j\) (si hay más de uno, tomo el más chico). Luego, para cada \(j \in \{1, \cdots, m\}\) defino:
+      \[ C(a_{jk_j}) = VERDE \quad\text{y pinto los otros dos uno de ROJO y otro de NEGRO}\]
+De esta forma, los triángulos de \(a\) no tienen problema.
+
+Ahora, para pintar los \(e\):
+      \[ C(e_{jk_j}) = NEGRO \quad C(e_{jr}) = VERDE \text{ para } r \ne k_j \]
+
+Falta ver que los lados con \(e\) no tengan problema.
+\begin{itemize}
+\item \(e_{jk_j}a_{jk_j}\)
+
+No genera problema pues \({C(e_{jk_j}) = NEGRO \ne VERDE = C(a_{jk_j})}\)
+
+\item \(e_{jr}a_{jr}\) con \(r \ne k_j\)
+
+No hay problema pues \({C(e_{jr}) = VERDE}\) y \({C(a_{jr}) = ROJO \text{ o } NEGRO}\)
+
+\item \(e_{jr}CAPI\)
+
+No hay problema pues \(C(e_{jr}) = NEGRO \text{ o } VERDE\) y \({C(CAPI) = ROJO}\)
+
+\item \(e_{jr}v(l_{jr})\) con \(r \ne k_j\)
+
+No hay problema pues \({C(e_{jr}) = VERDE}\) y \({C(v(l_{jr})) = ROJO \text{ o } NEGRO}\) porque \({v(l_{jr}) = u_i \text{ o } w_i}\) para algún i
+
+\item \(e_{jk_j}v(l_{jk_j})\)
+
+\begin{itemize}
+\item Si \(l_{jk_j}\) es una variable
+
+Entonces existe q tal que \({l_{jk_j} = x_q}\). Entonces
+      \[1 = l_{jk_j}(\overrightarrow{b}) = x_q(\overrightarrow{b}) = b_q \]
+Por lo que \({C(v(l_{jk_j})) = C(u_q) = ROJO}\), entonces no hay problema.
+
+\item Si \(l_{jk_j}\) es una negación de una variable
+
+Entonces existe q tal que \({l_{jk_j} = \overline{x_q}}\). Entonces
+      \[1 = l_{jk_j}(\overrightarrow{b}) = \overline{x_q}(\overrightarrow{b}) = 1 - b_q \implies b_q = 0 \]
+Por lo que \({C(v(l_{jk_j})) = C(w_q) = ROJO}\), entonces no hay problema.
+\end{itemize}
+\end{itemize}
 \end{document}
