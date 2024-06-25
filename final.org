@@ -140,7 +140,7 @@ Entonces por ahora tengo que la complejidad de encontrar los caminos y aumentar 
 
 Para mantener esa propiedad, luego de cada camino ejecuto el proceso 'podar', que va revisando los vertices desde los niveles superiores para abajo:
 - Si el vertice tiene lados que salen no hace nada
-- Si no tiene lados que salen, borra el vértice y sus lados al siguiente nivel
+- Si no tiene lados que salen, borra el vértice y sus lados
 
 Revisar si un vértice tiene lados que salen es O(1), y como luego de cada camino hago esto para cada vértice, esta parte me cuesta $O(n \times m)$.
 
