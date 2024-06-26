@@ -2,10 +2,11 @@
 #+AUTHOR: Tomás Maraschio
 #+STARTUP: latexpreview
 #+STARTUP: overview
-#+OPTIONS: toc:1
-#+OPTIONS: num:2
+#+OPTIONS: toc:nil
+#+OPTIONS: num:1
 #+LATEX_HEADER: \usepackage[spanish]{babel}
 #+LANGUAGE: es
+\newpage\tableofcontents
 
 * ¿Cuál es la complejidad de Edmonds-Karp?
 Para esta demostración usaré las definiciones y resultados de [[id:distancias][_este teorema_]].
