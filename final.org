@@ -715,3 +715,118 @@ Falta ver que los lados con \(e\) no tengan problema.
       Entonces existe q tal que ${l_{jk_j} = \overline{x_q}}$. Entonces
             \[1 = l_{jk_j}(\overrightarrow{b}) = \overline{x_q}(\overrightarrow{b}) = 1 - b_q \implies b_q = 0 \]
       Por lo que ${C(v(l_{jk_j})) = C(w_q) = ROJO}$, entonces no hay problema.
+
+
+* Probar que matrimonio trisexual es NP-completo
+Para ello voy a probar que 3SAT \(\le_P\) MATRIMONIO-trisexual, entonces voy a dar un algoritmo para pasar de una instancia a otra.
+
+** El algoritmo
+Sea B una instancia de 3SAT con variables $x_1, \cdots, x_n$ tal que ${B = D_1 \land \cdots \land D_m}$ con $D_j = l_{j1} \lor l_{j2} \lor l_{j3}$. Voy a construir un 3-hipergrafo $H$ con partes $X$, $Y$ y $Z$. Para simplificar la notación usaré:
+\begin{align*}
+i & \in \{1, \cdots, n\} \\
+j & \in \{1, \cdots, m\} \\
+r & \in \{1, 2, 3\} \\
+k & \in \{1, \cdots, m(n-1)\} \\
+\end{align*}
+
+*** Vértices
+\begin{align*}
+	X & = \{a_{ij}\}_{i,j} \cup \{s_j\}_j \cup \{h_k\}_k \\
+	Y & = \{b_{ij}\}_{i,j} \cup \{t_j\}_j \cup \{g_k\}_k \\
+	Z & = \{u_{ij}, w_{ij}\}_{i,j}
+\end{align*}
+
+Un requisito para que haya matching perfecto es que $|X| = |Y| = |Z|$, lo cual se cumple pues
+\begin{align*}
+	|X| & = nm + m + m(n-1) = 2nm \\
+	|Y| & = nm + m + m(n-1) = 2nm \\
+	|Z| & = nm + nm = 2nm
+\end{align*}
+
+*** Lados
+Primero, defino
+\[
+v_{jr} = \begin{cases}
+          u_{ij} & \quad\text{si } \exists i : l_{jr} = x_i \\	
+          w_{ij} & \quad\text{si } \exists i : l_{jr} = \overline{x_i}
+\end{cases}
+\]
+Luego, los lados del hipergrafo H serán $E_0 \cup E_1 \cup E_2 \cup E_3$:
+\begin{align*}
+	E_0 & = \{\{a_{ij}, b_{ij}, u_{ij}\}\}_{i,j} \\
+	E_1 & = \{\{a_{i(j+1)}, b_{ij}, w_{ij}\}\}_{i,j} \quad(\text{notar que si } j = m \text{, entonces } j+1 = 1) \\
+	E_2 & = \{\{h_k, g_k, u_{ij}\}\}_{i,j,k} \cup \{\{h_k, g_k, w_{ij}\}\}_{i,j,k}\\
+  E_3 & = \{\{s_j, t_j, v_{jr}\}\}_{j,r} \\
+\end{align*}
+
+** Hay matching perfecto en H sii B es satisfacible
+*** _$\implies$ ida_
+Sup. que existe $M$ matching perfecto en $H$. Ahora, sea un i cualquiera, si existe un j tal que
+      \[\exists L \in E(M) \cap E_0 : a_{ij} \in L, \]
+entonces la única forma que pase esto es si ${ L = \{a_{ij}, b_{ij}, u_{ij}\}. }$ Luego, como $M$ es matching y sus lados son disjuntos, tengo que $b_{ij}$ no puede aparecer en otro lado de $M$. Pero como $M$ es completo, $a_{i(j+1)}$ tiene que estar en algún lado, entonces llego a que ${ \{a_{i(j+1)}, b_{i(j+1)}, u_{i(j+1)} \} \in E(M) .}$ De la misma forma llego a que ${ \{a_{i(j+2)}, b_{i(j+2)}, u_{i(j+2)} \} \in E(M) ,}$ y así sucesivamente hasta llegar a
+      \[ \{a_{ij}, b_{ij}, u_{ij}\} \in E(M), \forall j \]
+lo cual llamaré 'CASO 0' para i.
+ 
+Con un análisis análogo pero suponiendo que existe un j tal que
+      \[\exists L \in E(M) \cap E_1 : a_{ij} \in L, \]
+llego a 
+      \[ \{a_{i(j+1)}, b_{ij}, w_{ij}\} \in E(M), \forall j \]
+lo cual llamaré 'CASO 1' para i.
+
+Notar que los vértices $a_{ij}$ solo aparecen en $E_0 \cup E_1$, lo que implica que si no se cumple 'CASO 1' para i, es porque se cumple 'CASO 0' para i.
+
+Con esto en mente voy a definir \(\overrightarrow{b}\):
+\[
+b_i = \begin{cases}
+	1 $ \quad\text{si 'CASO 1' para } i \\
+	0 $ \quad\text{si 'CASO 0' para } i
+\end{cases}
+\]
+
+Ahora, para probar $B(\overrightarrow{b}) = 1$, tengo que probar que $\forall j, \exists r : l_{jr}(\overrightarrow{b}) = 1$. Entonces sea un j fijo, como $M$ es perfecto, los vértices $t_j$ y $s_j$ deben estar en algún lado de $M$. Entonces existe r tal que $\{s_j, t_j, v_{jr}\} \in E(M)$.
+
+- _Si $l_{jr}$ es una variable $x_i$_:
+
+  Entonces $v_{jr} = u_{ij}$ y $\{s_j, t_j, u_{ij}\} \in E(M)$. Entonces $\{a_{ij}, b_{ij}, u_{ij}\} \not\in E(M)$, por lo que estoy en 'CASO 1' para i. Finalmente:
+        \[ l_{jr}(\overrightarrow{b}) = x_i(\overrightarrow{b}) = b_i = 1 \]
+
+- _Si $l_{jr}$ es una negación de variable $\overline{x_i}$_:
+
+  Entonces $v_{jr} = w_{ij}$ y $\{s_j, t_j, w_{ij}\} \in E(M)$. Entonces $\{a_{i(j+1)}, b_{ij}, w_{ij}\} \not\in E(M)$, por lo que estoy en 'CASO 0' para i. Finalmente:
+        \[ l_{jr}(\overrightarrow{b}) = \overline{x_i}(\overrightarrow{b}) = 1 - b_i = 1 \]
+
+*** _$\impliedby$ vuelta_
+Sea $\overrightarrow{b}$ tal que $B(\overrightarrow{b}) = 1$. Voy a construir un matching completo $M$ con lados $F_0 \cup F_1 \cup F_2 \cup F_3$ tales que $F_n \subseteq E_n$ para $n = 0, 1, 2, 3$.
+
+      \[ F_0 = \{ \{a_{ij}, b_{ij}, u_{ij}\} : j = 1, \cdots, m \land b_i = 0 \} \]
+      \[ F_1 = \{ \{a_{i(j+1)}, b_{ij}, w_{ij}\} : j = 1, \cdots, m \land b_i = 1 \} \]
+Es claro que estos lados son disjuntos.
+
+Para definir $F_3$ voy a usar el hecho de que $B(\overrightarrow{b}) = 1$, lo que significa que ${ \forall j, \exists r_j : l_{jr_j}(\overrightarrow{b}) = 1 .}$ Si en algún $j$ hay más de un $r_j$ que cumpla eso, tomo uno. De esta forma:
+      \[ F_3 = \{ \{ s_j, t_j, v_{jr_j} \} \}_j \]
+Es claro que los lados de $F_3$ son disjuntos entre sí, pues elegí un solo $r_j$.
+
+- *¿Qué pasa si hay un vértice que esté en un lado de $F_0$ y en un lado de $F_3$?*
+
+  Esto tiene que ser porque $v_{jr_j} = u_{ij}$ y $\{a_{ij}, b_{ij}, u_{ij}\} \in F_0$. Estas dos cosas implican que $l_{jr_j} = x_i$ y $b_i = 0$. Luego
+            \[ 1 = l_{jr_j}(\overrightarrow{b}) = x_i(\overrightarrow{b}) = b_i = 0 \]
+  es un absurdo, entonces los lados de $F_3$ son disjuntos con los de $F_0$.
+
+- *¿Qué pasa si hay un vértice que esté en un lado de $F_1$ y en un lado de $F_3$?*
+
+  Esto tiene que ser porque $v_{jr_j} = w_{ij}$ y $\{a_{i(j+1)}, b_{ij}, w_{ij}\} \in F_1$. Estas dos cosas implican que $l_{jr_j} = \overline{x_i}$ y $b_i = 1$. Luego
+            \[ 1 = l_{jr_j}(\overrightarrow{b}) = \overline{x_i}(\overrightarrow{b}) = 1 - b_i = 0 \]
+  es un absurdo, entonces los lados de $F_3$ son disjuntos con los de $F_1$.
+
+Por ahora $M$ es matching, pero falta ver que sea perfecto. Para esto defino
+      \[ N = \{z \in Z : z \text{ no está cubierto por un lado de } F_0 \cup F_1 \cup F_3 \} \]
+y calcularé $|N|$. Primero, es claro que $|F_3|=m$. Luego, sea $p = |\{i : b_i = 0\}|$ y $q = |\{i : b_i = 1\}|$, es claro que $p+q = n$ y que $|F_0| = mp$ y $|F_1| = mq$. Con todo esto puedo calcular
+      \[ |Z - N| = |F_0| + |F_1| + |F_3| = mp + mq + m = m(p+q+1) = m(n+1) \]
+y finalmente
+      \[ |N| = |Z| - |Z-N| = 2mn - m(n+1) = m(n-1) \]
+
+Entonces, existe una biyección $f: \{1, \cdots, m(n-1)\} \rightarrow N$, por lo que defino
+      \[ F_2 = \{\{g_k, h_k, f(k)\} : k \in \{1, \cdots, m(n-1)\} \} \]
+que tiene lados disjuntos porque f es inyectiva y además cubre todos los $z \in Z$ que no tenía cubiertos porque f es suryectiva. Además, es claro que sus lados son disjuntos con los de $F_0 \cup F_1 \cup F_3$ por cómo definí $f$.
+
+Finalmente, como cubrí todos los lados de $Z$, $M$ es matching y $|X| = |Y| = |Z|$, tengo que $M$ es matching perfecto en H.
