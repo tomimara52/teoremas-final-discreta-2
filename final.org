@@ -238,7 +238,7 @@ Sea f flujo y S corte con $V(f) = Cap(S)$. Para todo flujo g, por lo que probé 
 Sea f flujo maximal. Voy a construir un S y probaré que es un corte minimal con V(f) = Cap(S).
 \[ S = \{s\} \cup \{x \colon \text{existe f-camino aumentante de s a x}\} \]
 *** S es corte
-Sup. que no lo es. La única forma que pase esto es porque $t \not\in S$, pues $s \in S$. Pero esto significa que existe un f-camino aumentante de s a t, por lo que puedo aumentar f en ese camino. Absurdo porque f es maximal, luego S es corte.
+Sup. que no lo es. La única forma que pase esto es porque $t \in S$, pues $s \in S$. Pero esto significa que existe un f-camino aumentante de s a t, por lo que puedo aumentar f en ese camino. Absurdo porque f es maximal, luego S es corte.
 
 *** V(f) = Cap(S)
 Sean $x \in S, y \not\in S, \overrightarrow{xy} \in E$.
