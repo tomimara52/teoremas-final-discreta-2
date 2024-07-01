@@ -10,7 +10,7 @@
 7.  [Si una red tiene muy buen rendimiento durante el entrenamiento, pero muy bajo rendimiento en un conjunto de datos de evaluación, ¿qué acciones tomaría para mejorar el modelo?](#p7)
 8.  [¿Por qué inicializamos los pesos de un modelo en valores aleatorios? ¿Qué pasaría si los inicializamos todos en cero? ¿Y todos en uno?](#p8)
 9.  [¿Por qué el dropout puede ser considerado una técnica de regularización?](#p9)
-
+10. [¿Por qué está recomendada la estandarización o escalado de los valores de entrada de un modelo como la regresión lineal o el mlp?](#p10)
 
 
 <a id="p1"></a>
@@ -135,3 +135,10 @@ La otra razón es que si inicializamos todos los pesos al mismo valor, todas las
 
 El dropout consiste en apagar neuronas aleatoriamente al momento de entrenar el modelo. Esto impide que la red neuronal "memorice" cosas, y ayuda a simular muchas arquitecturas de red para mejorar la generalización.
 El dropout es una forma de evitar overfitting.
+
+
+<a id="p10"></a>
+
+# ¿Por qué está recomendada la estandarización o escalado de los valores de entrada de un modelo como la regresión lineal o el mlp?
+
+La estandarización hace que los modelos de descenso por la gradiente converjan mucho más rápido, ya que al hacer que todas las features tengan la misma escala, no hay ninguna que se adueñe de la optimización. Otra ventaja es que nos permite interpretar los pesos obtenidos, por ejemplo: si el peso obtenido del feature A es el doble que el del feature B, podemos interpretar que el feature A es el doble de importante para nuestra predicción que el B. Sin escalado no podemos hacer esta lectura de los pesos, ya que cada peso estaría en una unidad diferente.
