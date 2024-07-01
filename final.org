@@ -519,7 +519,7 @@ Como sé que SAT es NP-completo, probaré que SAT \(\le_P\) 3SAT. Primero tengo 
 ** El algoritmo
 Sea $B$ una expresión booleana con variables ${ x_1, \cdots, x_i }$ tal que
       \[ B = D_1 \land \cdots \land D_m \]
-Donde cada $D_j$ es una disjunción de literales ${l_{j1}, \cdots, l_{jr_j}.}$ Entonces voy a transformar a cada $D_j$ en un $E_j$ que será una conjunción de disjunciones de 3 literales:
+Donde cada $D_j$ es una disyunción de literales ${l_{j1}, \cdots, l_{jr_j}.}$ Entonces voy a transformar a cada $D_j$ en un $E_j$ que será una conjunción de disjunciones de 3 literales:
 *** _Si $r_j = 1$_:
 Introduzco las variables $y_{j1}, y_{j2}$:
     \[E_j = (l_{j1} \lor y_{j1} \lor y_{j2}) \land (l_{j1} \lor \overline{y_{j1}} \lor y_{j2}) \land (l_{j1} \lor y_{j1} \lor \overline{y_{j2}}) \land (l_{j1} \lor \overline{y_{j1}} \lor \overline{y_{j2}}) \]
@@ -552,7 +552,7 @@ donde $\overrightarrow{b}$ es el vector de asignación de las variables $x$, mie
 Es trivial ver que esto se cumple para los $D_j$ donde $r_j \le 3$. Me quedan los otros casos.
 
 *** _$\implies$ ida_
-Sup. que $D_j$ es satisfacible. Es decir, existe un vector de bits $\overrightarrow{b}$ tal que $D_j(\overrightarrow{b}) = 1$. Como $D_j$ es una disjunción, hay un $l_{jk}$ tal que ${l_{jk}(\overrightarrow{b}) = 1.}$ Tomo tal $l_{jk}$ que cumpla eso (si hay más de uno, tomo el primero) y defino $\overrightarrow{d}$:
+Sup. que $D_j$ es satisfacible. Es decir, existe un vector de bits $\overrightarrow{b}$ tal que $D_j(\overrightarrow{b}) = 1$. Como $D_j$ es una disyunción, hay un $l_{jk}$ tal que ${l_{jk}(\overrightarrow{b}) = 1.}$ Tomo tal $l_{jk}$ que cumpla eso (si hay más de uno, tomo el primero) y defino $\overrightarrow{d}$:
       \[ d_1, \cdots, d_{k-2} = 1 \quad\text{y} \quad d_{k-1}, \cdots, d_{r_j - 3} = 0 \]
 
 Ahora si evalúo $E_j$, teniendo en cuenta que ${y_{ji}(\overrightarrow{d}) = d_i}$ y ${\overline{y_{ji}(\overrightarrow{d})} = 1 - d_i}$:
