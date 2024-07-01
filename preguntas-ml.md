@@ -9,6 +9,7 @@
 6.  [¿Qué impacto tiene el learning rate en la optimización de la función?](#p6)
 7.  [Si una red tiene muy buen rendimiento durante el entrenamiento, pero muy bajo rendimiento en un conjunto de datos de evaluación, ¿qué acciones tomaría para mejorar el modelo?](#p7)
 8.  [¿Por qué inicializamos los pesos de un modelo en valores aleatorios? ¿Qué pasaría si los inicializamos todos en cero? ¿Y todos en uno?](#p8)
+9.  [¿Por qué el dropout puede ser considerado una técnica de regularización?](#p9)
 
 
 
@@ -126,3 +127,11 @@ Esto puede ser debido a overfitting. Se puede solucionar eliminando features red
 
 Esto lo hacemos por dos razones. La primera es para que los pesos converjan a diferentes mínimos locales, haciendo que nuestra función tenga más probabilidad de converger a un mínimo global.
 La otra razón es que si inicializamos todos los pesos al mismo valor, todas las neuronas de los niveles ocultos van a recibir el mismo input. Aún peor, si inicializamos los pesos en 0, todas las neuronas van a recibir un input de 0.
+
+
+<a id="p9"></a>
+
+# ¿Por qué el dropout puede ser considerado una técnica de regularización?
+
+El dropout consiste en apagar neuronas aleatoriamente al momento de entrenar el modelo. Esto impide que la red neuronal "memorice" cosas, y ayuda a simular muchas arquitecturas de red para mejorar la generalización.
+El dropout es una forma de evitar overfitting.
