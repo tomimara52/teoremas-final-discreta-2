@@ -282,7 +282,7 @@ Como u y v fueron agregados por un BFS desde x, sé que existe un camino de x a 
 Luego en el ciclo hay
 \begin{align*}
 Nivel_{BFS}(u) - Nivel_{BFS}(w) + 1 + Nivel_{BFS}(v) - Nivel_{BFS}(w) \\
-= Nivel_{BFS}(u) + Nivel_{BFS}(v) + 2 \times Nivel_{BFS}(w) + 1
+= Nivel_{BFS}(u) + Nivel_{BFS}(v) - 2 \times Nivel_{BFS}(w) + 1
 \end{align*}
 lados, que es un número impar por (1).
 
