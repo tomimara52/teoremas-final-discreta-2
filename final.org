@@ -109,7 +109,7 @@ Absurdo pues 0 < 2.
 ** Si $\overrightarrow{xz}$ es un lado
 En principio podría agregar x al final de $p_k$ para obtener un \(f_k\)-camino aumentante entre s y x. Pero si hago eso llego a
 \[ d_k(x) \le d_k(z)+1 \le d_{k+1}(z) + 1 = d_{k+1}(x), \]
-lo que es un absurdo porque x está en A. Este absurdo tiene que venir de que no puedo agregar x al camino, y esto tiene que ser porque ${f_k(\overrightarrow{zx}) = 0}$. Pero en $p_{k+1}$ está el lado $\overleftarrow{zx}$, lo que significa que para pasar de $f_k$ a $f_{k+1}$ tuve que usarlo en modo forward. Es decir, existe un camino de longitud mínima (por usar E-K)
+lo que es un absurdo porque x está en A. Este absurdo tiene que venir de que no puedo agregar x al camino, y esto tiene que ser porque ${f_k(\overrightarrow{xz}) = 0}$. Pero en $p_{k+1}$ está el lado $\overleftarrow{zx}$, lo que significa que para pasar de $f_k$ a $f_{k+1}$ tuve que usarlo en modo forward. Es decir, existe un camino de longitud mínima (por usar E-K)
 \[ p_k': s \cdots xz \cdots t, \]
 entonces ${d_k(z) = d_k(x) + 1}$. Luego,
 \begin{align*}
